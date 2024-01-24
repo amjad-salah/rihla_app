@@ -1,4 +1,4 @@
-# Rihla App
+# Rihla App :bus:
 
 Rihla is web app that helps road transport firms in biz management, including:
 
@@ -8,7 +8,7 @@ Rihla is web app that helps road transport firms in biz management, including:
 4. Journey and Reservations Management
 5. Income and Expense Management
 
-### Fleet and Fleet Expense Module:
+### Fleet and Fleet Expense Module :bus::
 
 ### Drivers Module:
 
@@ -16,4 +16,4 @@ Rihla is web app that helps road transport firms in biz management, including:
 
 ### Journey and Reservations:
 
-### Income and Expense Module
+### Income and Expense Module 💰:
