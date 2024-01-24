@@ -25,6 +25,8 @@ const getJourney = asyncHandler(async (req, res) => {
   res.status(200).json({ journey });
 });
 
+//TODO: Add fucntion for reservation operations
+
 //@desc Create Journey
 //@rotue  POST /api/journeys
 //@access Private

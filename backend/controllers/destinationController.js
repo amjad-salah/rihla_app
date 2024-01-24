@@ -21,6 +21,9 @@ const getDestination = asyncHandler(async (req, res) => {
   res.status(200).json({ destination });
 });
 
+//TODO: Add fucntion for get journeys by destination
+//TODO: route GET /destination/:id/journeys
+
 //@desc Create Destination
 //@rotue  POST /api/destinations
 //@access Private

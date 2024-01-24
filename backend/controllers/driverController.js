@@ -21,6 +21,9 @@ const getDriver = asyncHandler(async (req, res) => {
   res.status(200).json({ driver });
 });
 
+//TODO: Add fucntion for get journeys by driver
+//TODO: route GET /deriver/:id/journeys
+
 //@desc Create Driver
 //@rotue  POST /api/drivers
 //@access Private

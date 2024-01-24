@@ -23,6 +23,9 @@ const getVehicle = asyncHandler(async (req, res) => {
   res.status(200).json({ vehicle });
 });
 
+//TODO: Add fucntion for get journeys and expenses (all expenses ops) by vehicle
+//TODO: route GET /fleet/:code/journeys and /fleet/:code/expenses
+
 //@desc Create Vehicle
 //@rotue  POST /api/fleet
 //@access Private
