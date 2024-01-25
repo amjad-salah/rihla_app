@@ -12,12 +12,12 @@ const getAllJourneys = asyncHandler(async (req, res) => {
 });
 
 //@desc Get Single Journey
-//@rotue  GET /api/journeys/:code
+//@rotue  GET /api/journeys/:id
 //@access Private
 const getJourney = asyncHandler(async (req, res) => {
-  const journey = await Journey.findById(req.params.id).populate(
-    'vehicle driver arrivalCity departureCity'
-  );
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('vehicle driver arrivalCity departureCity');
   if (!journey) {
     res.status(404);
     throw new Error('Journey Not Found');
@@ -60,10 +60,10 @@ const createJourney = asyncHandler(async (req, res) => {
 });
 
 //@desc Update Journey
-//@rotue  PUT /api/journeys/:code
+//@rotue  PUT /api/journeys/:id
 //@access Private
 const updateJourney = asyncHandler(async (req, res) => {
-  const journey = await Journey.findById(req.params.id);
+  const journey = await Journey.findOne({ journeyNumber: req.params.code });
 
   if (!journey) {
     res.status(404);
@@ -71,7 +71,7 @@ const updateJourney = asyncHandler(async (req, res) => {
   }
 
   const updatedJourney = await Journey.findByIdAndUpdate(
-    req.params.id,
+    journey._id,
     req.body,
     {
       new: true,
@@ -82,17 +82,17 @@ const updateJourney = asyncHandler(async (req, res) => {
 });
 
 //@desc Delete Journey
-//@rotue  Delete /api/journeys/:code
+//@rotue  Delete /api/journeys/:id
 //@access Private
 const deleteJourney = asyncHandler(async (req, res) => {
-  const journey = await Journey.findById(req.params.id);
+  const journey = await Journey.findOne({ journeyNumber: req.params.code });
 
   if (!journey) {
     res.status(404);
     throw new Error('Journey Not Found');
   }
 
-  await Journey.findByIdAndDelete(req.params.id);
+  await Journey.findByIdAndDelete(journey._id);
 
   res.status(200).json({ message: 'Journey deleted successfully!' });
 });
