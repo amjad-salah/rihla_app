@@ -13,9 +13,9 @@ const getAllReservations = asyncHandler(async (req, res) => {
     throw new Error('Journey Not Found');
   }
 
-  const reservations = await Reservation.find({ journey: journey._id })
-    .sort('-createdAt')
-    .populate('journey');
+  const reservations = await Reservation.find({ journey: journey._id }).sort(
+    '-createdAt'
+  );
   res.status(200).json({ reservations });
 });
 
@@ -50,21 +50,25 @@ const createReservation = asyncHandler(async (req, res) => {
     throw new Error('Journey Not Found');
   }
 
-  const { journey, customerName, seatNumber, reservationStatus, amount } =
-    req.body;
+  const { customerName, seatNumber, reservationStatus, amount } = req.body;
 
-  if (
-    !journey ||
-    !customerName ||
-    !seatNumber ||
-    !reservationStatus ||
-    !amount
-  ) {
+  if (!customerName || !seatNumber || !reservationStatus || !amount) {
     res.status(400);
     throw new Error('All fields are required');
   }
 
-  const newReservation = await Reservation.create(req.body);
+  //Check is the seat number is taken
+  const reserv = await Reservation.findOne({ journey: jrn._id, seatNumber });
+
+  if (reserv) {
+    res.status(400);
+    throw new Error('Seat number already taken');
+  }
+
+  const newReservation = await Reservation.create({
+    ...req.body,
+    journey: jrn._id,
+  });
 
   res.status(201).json({ newReservation });
 });
