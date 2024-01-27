@@ -21,7 +21,6 @@ import {
   getAllIncomes,
   getIncome,
   createIncome,
-  updateIncome,
   deleteIncome,
 } from '../controllers/journeyIncController.js';
 
@@ -29,7 +28,6 @@ import {
   getAllExpenses,
   getExpense,
   createExpense,
-  updateExpense,
   deleteExpense,
 } from '../controllers/journeyExpController.js';
 
@@ -64,7 +62,6 @@ router
 router
   .route('/:code/incomes/:id')
   .get(protect, getIncome)
-  .put(protect, updateIncome)
   .delete(protect, deleteIncome);
 
 router
@@ -75,7 +72,6 @@ router
 router
   .route('/:code/expenses/:id')
   .get(protect, getExpense)
-  .put(protect, updateExpense)
   .delete(protect, deleteExpense);
 
 export default router;

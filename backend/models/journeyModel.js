@@ -23,20 +23,6 @@ const journeySchema = mongoose.Schema(
     journeyNumber: {
       type: Number,
     },
-    status: {
-      type: String,
-      required: true,
-      enum: [
-        'جديد',
-        'جارية',
-        'إنتهت',
-        'ملغاة',
-        'New',
-        'Running',
-        'Finished',
-        'Canceled',
-      ],
-    },
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Vehicle',

@@ -7,7 +7,6 @@ import {
   getAllVehicles,
   getVehicle,
   updateVehicle,
-  getVehicleJrs,
   getVehicleExps,
   createVehicleExp,
   deleteVehicleExp,
@@ -22,8 +21,6 @@ router
   .get(protect, getVehicle)
   .put(protect, updateVehicle)
   .delete(protect, deleteVehicle);
-
-router.route('/:code/journeys').get(protect, getVehicleJrs);
 
 router
   .route('/:code/expenses')

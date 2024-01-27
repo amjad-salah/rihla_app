@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Journey from '../models/journeyModel.js';
+import Reservation from '../models/reservationModel.js';
 
 //@desc Get All Journeys
 //@rotue  GET /api/journeys
@@ -17,15 +18,15 @@ const getAllJourneys = asyncHandler(async (req, res) => {
 const getJourney = asyncHandler(async (req, res) => {
   const journey = await Journey.findOne({
     journeyNumber: req.params.code,
-  }).populate('vehicle driver arrivalCity departureCity');
+  }).populate('vehicle driver arrivalCity departureCity incomes expenses');
+
   if (!journey) {
     res.status(404);
     throw new Error('Journey Not Found');
   }
+
   res.status(200).json({ journey });
 });
-
-//TODO: Add fucntion for reservation operations
 
 //@desc Create Journey
 //@rotue  POST /api/journeys
@@ -90,6 +91,13 @@ const deleteJourney = asyncHandler(async (req, res) => {
   if (!journey) {
     res.status(404);
     throw new Error('Journey Not Found');
+  }
+
+  const reservations = await Reservation.find({ journey: journey._id });
+
+  if (reservations) {
+    res.status(400);
+    throw new Error('Journey has reservations');
   }
 
   await Journey.findByIdAndDelete(journey._id);

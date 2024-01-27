@@ -5,7 +5,7 @@ import Driver from '../models/driverModel.js';
 //@rotue  GET /api/drivers
 //@access Private
 const getAllDrivers = asyncHandler(async (req, res) => {
-  const drivers = await Driver.find().sort('-createdAt');
+  const drivers = await Driver.find().sort('-createdAt').populate('journeys');
   res.status(200).json({ drivers });
 });
 
@@ -20,9 +20,6 @@ const getDriver = asyncHandler(async (req, res) => {
   }
   res.status(200).json({ driver });
 });
-
-//TODO: Add fucntion for get journeys by driver
-//TODO: route GET /deriver/:id/journeys
 
 //@desc Create Driver
 //@rotue  POST /api/drivers

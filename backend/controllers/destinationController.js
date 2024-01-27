@@ -13,16 +13,15 @@ const getAllDestinations = asyncHandler(async (req, res) => {
 //@rotue  GET /api/destinations/:id
 //@access Private
 const getDestination = asyncHandler(async (req, res) => {
-  const destination = await Destination.findById(req.params.id);
+  const destination = await Destination.findById(req.params.id).populate(
+    'fromCities toCities'
+  );
   if (!destination) {
     res.status(404);
     throw new Error('Destination Not Found');
   }
   res.status(200).json({ destination });
 });
-
-//TODO: Add fucntion for get journeys by destination
-//TODO: route GET /destination/:id/journeys
 
 //@desc Create Destination
 //@rotue  POST /api/destinations

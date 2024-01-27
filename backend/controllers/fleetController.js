@@ -16,13 +16,18 @@ const getAllVehicles = asyncHandler(async (req, res) => {
 //@access Private
 const getVehicle = asyncHandler(async (req, res) => {
   const vehicle = await Vehicle.findOne({ vehCode: req.params.code }).populate(
-    'journeys expenses'
+    'expenses'
   );
+
   if (!vehicle) {
     res.status(404);
     throw new Error('Vehicle Not Found');
   }
-  res.status(200).json({ vehicle });
+  const journeys = await Journey.find({ vehicle: vehicle._id }).populate(
+    'incomes'
+  );
+
+  res.status(200).json({ vehicle, journeys });
 });
 
 //@desc Create Vehicle
@@ -113,24 +118,6 @@ const deleteVehicle = asyncHandler(async (req, res) => {
 });
 
 //@desc  Get a Vehicle Journeys
-//@rotue  GET /api/fleet/:code/journeys
-//@access Private
-const getVehicleJrs = asyncHandler(async (req, res) => {
-  const vehicle = await Vehicle.findOne({ vehCode: req.params.code });
-
-  if (!vehicle) {
-    res.status(404);
-    throw new Error('Vehicle Not Found');
-  }
-
-  const journeys = await Journey.find({ vehicle: vehicle._id }).sort(
-    '-createdAt'
-  );
-
-  res.status(200).json({ journeys });
-});
-
-//@desc  Get a Vehicle Journeys
 //@rotue  GET /api/fleet/:code/expenses
 //@access Private
 const getVehicleExps = asyncHandler(async (req, res) => {
@@ -145,7 +132,7 @@ const getVehicleExps = asyncHandler(async (req, res) => {
     '-createdAt'
   );
 
-  res.status(200).json({ expenses });
+  res.status(200).json({ expenses, vehicle });
 });
 
 //@desc  Get a Vehicle Journeys
@@ -203,7 +190,6 @@ export {
   createVehicle,
   updateVehicle,
   deleteVehicle,
-  getVehicleJrs,
   getVehicleExps,
   createVehicleExp,
   deleteVehicleExp,

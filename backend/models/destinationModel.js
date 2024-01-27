@@ -19,13 +19,13 @@ const destinationSchema = mongoose.Schema(
   }
 );
 
-destinationSchema.virtual('fromJours', {
+destinationSchema.virtual('fromCities', {
   ref: 'Journey',
   localField: '_id',
   foreignField: 'departureCity',
 });
 
-destinationSchema.virtual('toJours', {
+destinationSchema.virtual('toCities', {
   ref: 'Journey',
   localField: '_id',
   foreignField: 'arrivalCity',

@@ -3,6 +3,8 @@ import Reservation from '../models/reservationModel.js';
 import Journey from '../models/journeyModel.js';
 import Vehicle from '../models/vehicleModel.js';
 import JourneyIncom from '../models/journeyIncModel.js';
+import FinCategory from '../models/finCategoryModel.js';
+import Transaction from '../models/transactionModel.js';
 
 //@desc Get All Reservations
 //@rotue  GET /api/journeys/:code/reservations
@@ -18,7 +20,7 @@ const getAllReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ journey: journey._id }).sort(
     '-createdAt'
   );
-  res.status(200).json({ reservations });
+  res.status(200).json({ reservations, journey });
 });
 
 //@desc Get Confirmed Reservations
@@ -36,7 +38,7 @@ const getConfirmedReservations = asyncHandler(async (req, res) => {
     journey: journey._id,
     reservationStatus: 'مؤكد',
   }).sort('-createdAt');
-  res.status(200).json({ reservations });
+  res.status(200).json({ reservations, journey });
 });
 
 //@desc Get Single Reservation
@@ -56,7 +58,7 @@ const getReservation = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Reservation Not Found');
   }
-  res.status(200).json({ reservation });
+  res.status(200).json({ reservation, journey });
 });
 
 //@desc Create Reservation
@@ -116,6 +118,27 @@ const createReservation = asyncHandler(async (req, res) => {
       desc: `Reservation ${newReservation.customerName}`,
       amount,
     });
+
+    //Creat a global income
+    let jrnCategory = await FinCategory.findOne({
+      catName: 'الرحلات',
+      catType: 'income',
+    });
+
+    if (!jrnCategory) {
+      jrnCategory = await FinCategory.create({
+        catName: 'الرحلات',
+        catType: 'income',
+      });
+    }
+
+    //Create incom
+    await Transaction.create({
+      txType: 'income',
+      category: jrnCategory._id,
+      amount,
+      description: `Journey ${jrn.journeyNumber} ${customerName} Reservation`,
+    });
   }
 
   res.status(201).json({ newReservation });
@@ -166,14 +189,110 @@ const updateReservation = asyncHandler(async (req, res) => {
         desc: `Reservation ${newReservation.customerName}`,
         amount,
       });
+
+      //Creat a global income
+      let jrnCategory = await FinCategory.findOne({
+        catName: 'الرحلات',
+        catType: 'income',
+      });
+
+      if (!jrnCategory) {
+        jrnCategory = await FinCategory.create({
+          catName: 'الرحلات',
+          catType: 'income',
+        });
+      }
+
+      //Create incom
+      await Transaction.create({
+        txType: 'income',
+        category: jrnCategory._id,
+        amount,
+        description: `Journey ${jrn.journeyNumber} ${customerName} Reservation`,
+      });
     }
 
-    //Check for cancel
+    //Check for cancel and delete income
     if (
       req.body.reservationStatus === 'ملغاة' &&
       reservation.reservationStatus === 'مؤكد'
     ) {
+      //Creat a global expense to balance income
+      let jrnCategory = await FinCategory.findOne({
+        catName: 'الرحلات',
+        catType: 'expense',
+      });
+
+      if (!jrnCategory) {
+        jrnCategory = await FinCategory.create({
+          catName: 'الرحلات',
+          catType: 'expense',
+        });
+      }
+
+      //Create expense
+      await Transaction.create({
+        txType: 'expense',
+        category: jrnCategory._id,
+        amount,
+        description: `Journey ${jrn.journeyNumber} ${customerName} Reservation Cancel`,
+      });
+
       await JourneyIncom.findOneAndDelete({ reservation: reservation._id });
+    }
+  }
+
+  //Check if there is diff in amount
+  if (req.body.amount) {
+    //Find journey income and update amount
+    await JourneyIncom.findOneAndUpdate(
+      { reservation: reservation._id },
+      { amount: req.body.amount }
+    );
+
+    let diff = req.body.amount - reservation.amount;
+
+    if (diff > 0) {
+      //Create global income with diff value
+      let jrnCategory = await FinCategory.findOne({
+        catName: 'الرحلات',
+        catType: 'income',
+      });
+
+      if (!jrnCategory) {
+        jrnCategory = await FinCategory.create({
+          catName: 'الرحلات',
+          catType: 'income',
+        });
+      }
+
+      await Transaction.create({
+        txType: 'income',
+        category: jrnCategory._id,
+        amount: diff,
+        description: `Journey ${jrn.journeyNumber} - ${desc} Change Amount`,
+      });
+    } else if (diff < 0) {
+      //Create gobal expense with diff value
+      let jrnCategory = await FinCategory.findOne({
+        catName: 'الرحلات',
+        catType: 'expense',
+      });
+
+      if (!jrnCategory) {
+        jrnCategory = await FinCategory.create({
+          catName: 'الرحلات',
+          catType: 'expense',
+        });
+      }
+
+      //Create expense
+      await Transaction.create({
+        txType: 'expense',
+        category: jrnCategory._id,
+        amount: -diff,
+        description: `Journey ${jrn.journeyNumber} Amount Changed`,
+      });
     }
   }
 
@@ -206,9 +325,30 @@ const deleteReservation = asyncHandler(async (req, res) => {
     throw new Error('Reservation Not Found');
   }
 
-  //Check for cancel
+  //Check status for confirm
   if (reservation.reservationStatus === 'مؤكد') {
     await JourneyIncom.findOneAndDelete({ reservation: reservation._id });
+
+    //Create a global expense to balance income
+    let jrnCategory = await FinCategory.findOne({
+      catName: 'الرحلات',
+      catType: 'expense',
+    });
+
+    if (!jrnCategory) {
+      jrnCategory = await FinCategory.create({
+        catName: 'الرحلات',
+        catType: 'expense',
+      });
+    }
+
+    //Create expense
+    await Transaction.create({
+      txType: 'expense',
+      category: jrnCategory._id,
+      amount: reservation.amount,
+      description: `Journey ${jrn.journeyNumber} ${customerName} Reservation Delete`,
+    });
   }
 
   await Reservation.findByIdAndDelete(req.params.id);
