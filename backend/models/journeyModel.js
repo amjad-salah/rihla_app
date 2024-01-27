@@ -6,7 +6,7 @@ const journeySchema = mongoose.Schema(
     journeyType: {
       type: String,
       required: true,
-      enum: ['ركاب', 'شحن'],
+      enum: ['ركاب', 'شحن', 'Paasenger', 'Shippng'],
     },
     departureCity: {
       type: mongoose.Schema.Types.ObjectId,
@@ -26,7 +26,16 @@ const journeySchema = mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ['جديد', 'جارية', 'إنتهت', 'ملغاة'],
+      enum: [
+        'جديد',
+        'جارية',
+        'إنتهت',
+        'ملغاة',
+        'New',
+        'Running',
+        'Finished',
+        'Canceled',
+      ],
     },
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,

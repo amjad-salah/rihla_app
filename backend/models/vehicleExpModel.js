@@ -5,7 +5,18 @@ const vehicleExpenseSchema = mongoose.Schema(
     expType: {
       type: String,
       required: true,
-      enum: ['صيانة', 'ترخيص', 'تأمين', 'وقود', 'أخرى'],
+      enum: [
+        'صيانة',
+        'ترخيص',
+        'تأمين',
+        'وقود',
+        'أخرى',
+        'Maintenance',
+        'License',
+        'Insurance',
+        'Fuel',
+        'Other',
+      ],
     },
     desc: {
       type: String,

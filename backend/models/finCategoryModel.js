@@ -13,6 +13,9 @@ const finCategorySchema = mongoose.Schema(
     },
   },
   {
+    toJSON: {
+      virtuals: true,
+    },
     timestamps: true,
   }
 );

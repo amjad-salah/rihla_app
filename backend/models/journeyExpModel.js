@@ -9,7 +9,16 @@ const journeyExpenseSchema = mongoose.Schema(
     expType: {
       type: String,
       required: true,
-      enum: ['وقود', 'صيانة', 'طريق', 'أخرى'],
+      enum: [
+        'وقود',
+        'صيانة',
+        'طريق',
+        'أخرى',
+        'Fuel',
+        'Maintenance',
+        'Road',
+        'Other',
+      ],
     },
     desc: {
       type: String,

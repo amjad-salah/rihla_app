@@ -16,7 +16,7 @@ const reservationSchema = mongoose.Schema(
     reservationStatus: {
       type: String,
       required: true,
-      enum: ['حجز', 'مؤكد', 'ملغي'],
+      enum: ['مبدئي', 'مؤكد', 'ملغي', 'Initial', 'Confirmed', 'Canceled'],
     },
     amount: {
       type: Number,
