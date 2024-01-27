@@ -1,6 +1,8 @@
 import asyncHandler from 'express-async-handler';
 import Reservation from '../models/reservationModel.js';
 import Journey from '../models/journeyModel.js';
+import Vehicle from '../models/vehicleModel.js';
+import JourneyIncom from '../models/journeyIncModel.js';
 
 //@desc Get All Reservations
 //@rotue  GET /api/journeys/:code/reservations
@@ -16,6 +18,24 @@ const getAllReservations = asyncHandler(async (req, res) => {
   const reservations = await Reservation.find({ journey: journey._id }).sort(
     '-createdAt'
   );
+  res.status(200).json({ reservations });
+});
+
+//@desc Get Confirmed Reservations
+//@rotue  GET /api/journeys/:code/confirm-reserv
+//@access Private
+const getConfirmedReservations = asyncHandler(async (req, res) => {
+  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+
+  if (!journey) {
+    res.status(404);
+    throw new Error('Journey Not Found');
+  }
+
+  const reservations = await Reservation.find({
+    journey: journey._id,
+    reservationStatus: 'مؤكد',
+  }).sort('-createdAt');
   res.status(200).json({ reservations });
 });
 
@@ -50,6 +70,20 @@ const createReservation = asyncHandler(async (req, res) => {
     throw new Error('Journey Not Found');
   }
 
+  //Check for seat availability if journey type is passenger
+  if (jrn.journeyType === 'ركاب') {
+    const vehicle = await Vehicle.findById(jrn.vehicle);
+    const reservations = await Reservation.find({
+      journey: jrn._id,
+      reservationStatus: 'مؤكد',
+    });
+
+    if (vehicle.capacity === reservations.length) {
+      res.status(400);
+      throw new Error('No seat available in this journey');
+    }
+  }
+
   const { customerName, seatNumber, reservationStatus, amount } = req.body;
 
   if (!customerName || !seatNumber || !reservationStatus || !amount) {
@@ -58,7 +92,11 @@ const createReservation = asyncHandler(async (req, res) => {
   }
 
   //Check is the seat number is taken
-  const reserv = await Reservation.findOne({ journey: jrn._id, seatNumber });
+  const reserv = await Reservation.findOne({
+    journey: jrn._id,
+    seatNumber,
+    reservationStatus: 'مؤكد',
+  });
 
   if (reserv) {
     res.status(400);
@@ -69,6 +107,16 @@ const createReservation = asyncHandler(async (req, res) => {
     ...req.body,
     journey: jrn._id,
   });
+
+  //Creat journey income if status is confirmed
+  if (reservationStatus === 'مؤكد') {
+    await JourneyIncom.create({
+      journey: jrn._id,
+      reservation: newReservation._id,
+      desc: `Reservation ${newReservation.customerName}`,
+      amount,
+    });
+  }
 
   res.status(201).json({ newReservation });
 });
@@ -89,6 +137,44 @@ const updateReservation = asyncHandler(async (req, res) => {
   if (!reservation) {
     res.status(404);
     throw new Error('Reservation Not Found');
+  }
+
+  //Check status changed to confirmed or canceled
+  if (req.body.reservationStatus) {
+    if (
+      req.body.reservationStatus === 'مؤكد' &&
+      reservation.reservationStatus !== 'مؤكد'
+    ) {
+      //Check for seat availability if journey type is passenger
+      if (journey.journeyType === 'ركاب') {
+        const vehicle = await Vehicle.findById(jrn.vehicle);
+        const reservations = await Reservation.find({
+          journey: jrn._id,
+          reservationStatus: 'مؤكد',
+        });
+
+        if (vehicle.capacity === reservations.length) {
+          res.status(400);
+          throw new Error('No seat available in this journey');
+        }
+      }
+
+      //Create journey Income
+      await JourneyIncom.create({
+        journey: jrn._id,
+        reservation: newReservation._id,
+        desc: `Reservation ${newReservation.customerName}`,
+        amount,
+      });
+    }
+
+    //Check for cancel
+    if (
+      req.body.reservationStatus === 'ملغاة' &&
+      reservation.reservationStatus === 'مؤكد'
+    ) {
+      await JourneyIncom.findOneAndDelete({ reservation: reservation._id });
+    }
   }
 
   const updatedReservation = await Reservation.findByIdAndUpdate(
@@ -120,6 +206,11 @@ const deleteReservation = asyncHandler(async (req, res) => {
     throw new Error('Reservation Not Found');
   }
 
+  //Check for cancel
+  if (reservation.reservationStatus === 'مؤكد') {
+    await JourneyIncom.findOneAndDelete({ reservation: reservation._id });
+  }
+
   await Reservation.findByIdAndDelete(req.params.id);
 
   res.status(200).json({ message: 'Reservation deleted successfully!' });
@@ -131,4 +222,5 @@ export {
   createReservation,
   updateReservation,
   deleteReservation,
+  getConfirmedReservations,
 };

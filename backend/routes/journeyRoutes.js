@@ -14,6 +14,7 @@ import {
   createReservation,
   deleteReservation,
   updateReservation,
+  getConfirmedReservations,
 } from '../controllers/reservationController.js';
 
 import {
@@ -52,6 +53,8 @@ router
   .get(protect, getReservation)
   .put(protect, updateReservation)
   .delete(protect, deleteReservation);
+
+router.route('/:code/confirm-reserv').get(protect, getConfirmedReservations);
 
 router
   .route('/:code/incomes')
