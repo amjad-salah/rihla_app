@@ -8,7 +8,9 @@ import FinCategory from '../models/finCategoryModel.js';
 //@rotue  GET /api/journeys/:code/incomes
 //@access Private
 const getAllIncomes = asyncHandler(async (req, res) => {
-  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('departureCity arrivalCity');
 
   if (!journey) {
     res.status(404);
@@ -25,7 +27,9 @@ const getAllIncomes = asyncHandler(async (req, res) => {
 //@rotue  GET /api/journeys/:code/incomes/:id
 //@access Private
 const getIncome = asyncHandler(async (req, res) => {
-  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('departureCity arrivalCity');
 
   if (!journey) {
     res.status(404);
@@ -83,7 +87,7 @@ const createIncome = asyncHandler(async (req, res) => {
     txType: 'income',
     category: jrnCategory._id,
     amount,
-    description: `Journey ${jrn.journeyNumber} - ${desc}`,
+    description: `Journey ${journey.journeyNumber} - ${desc}`,
   });
 
   res.status(201).json({ newIncome });

@@ -10,7 +10,9 @@ import Transaction from '../models/transactionModel.js';
 //@rotue  GET /api/journeys/:code/reservations
 //@access Private
 const getAllReservations = asyncHandler(async (req, res) => {
-  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('departureCity arrivalCity');
 
   if (!journey) {
     res.status(404);
@@ -27,7 +29,9 @@ const getAllReservations = asyncHandler(async (req, res) => {
 //@rotue  GET /api/journeys/:code/confirm-reserv
 //@access Private
 const getConfirmedReservations = asyncHandler(async (req, res) => {
-  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('departureCity arrivalCity');
 
   if (!journey) {
     res.status(404);
@@ -45,7 +49,9 @@ const getConfirmedReservations = asyncHandler(async (req, res) => {
 //@rotue  GET /api/journeys/:code/reservations/:id
 //@access Private
 const getReservation = asyncHandler(async (req, res) => {
-  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('departureCity arrivalCity');
 
   if (!journey) {
     res.status(404);
@@ -184,10 +190,10 @@ const updateReservation = asyncHandler(async (req, res) => {
 
       //Create journey Income
       await JourneyIncom.create({
-        journey: jrn._id,
-        reservation: newReservation._id,
-        desc: `Reservation ${newReservation.customerName}`,
-        amount,
+        journey: journey._id,
+        reservation: reservation._id,
+        desc: `Reservation ${reservation.customerName}`,
+        amount: reservation.amount,
       });
 
       //Creat a global income
@@ -207,8 +213,8 @@ const updateReservation = asyncHandler(async (req, res) => {
       await Transaction.create({
         txType: 'income',
         category: jrnCategory._id,
-        amount,
-        description: `Journey ${jrn.journeyNumber} ${customerName} Reservation`,
+        amount: reservation.amount,
+        description: `Journey ${journey.journeyNumber} ${reservation.customerName} Reservation`,
       });
     }
 
@@ -234,19 +240,29 @@ const updateReservation = asyncHandler(async (req, res) => {
       await Transaction.create({
         txType: 'expense',
         category: jrnCategory._id,
-        amount,
-        description: `Journey ${jrn.journeyNumber} ${customerName} Reservation Cancel`,
+        amount: reservation.amount,
+        description: `Journey ${journey.journeyNumber} ${customerName} Reservation Cancel`,
       });
 
       await JourneyIncom.findOneAndDelete({ reservation: reservation._id });
     }
   }
 
+  const updatedReservation = await Reservation.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+    }
+  );
+
+  const reser = await Reservation.findById(req.params.id);
+
   //Check if there is diff in amount
-  if (req.body.amount) {
+  if (req.body.amount && reser.reservationStatus === 'مؤكد') {
     //Find journey income and update amount
     await JourneyIncom.findOneAndUpdate(
-      { reservation: reservation._id },
+      { reservation: reservation._id.toString() },
       { amount: req.body.amount }
     );
 
@@ -270,7 +286,7 @@ const updateReservation = asyncHandler(async (req, res) => {
         txType: 'income',
         category: jrnCategory._id,
         amount: diff,
-        description: `Journey ${jrn.journeyNumber} - ${desc} Change Amount`,
+        description: `Journey ${journey.journeyNumber} - ${JourneyIncom.desc} - Change Amount`,
       });
     } else if (diff < 0) {
       //Create gobal expense with diff value
@@ -291,18 +307,10 @@ const updateReservation = asyncHandler(async (req, res) => {
         txType: 'expense',
         category: jrnCategory._id,
         amount: -diff,
-        description: `Journey ${jrn.journeyNumber} Amount Changed`,
+        description: `Journey ${journey.journeyNumber} - ${JourneyIncom.desc} - Amount Changed`,
       });
     }
   }
-
-  const updatedReservation = await Reservation.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-    }
-  );
 
   res.status(200).json({ updatedReservation });
 });
@@ -327,7 +335,9 @@ const deleteReservation = asyncHandler(async (req, res) => {
 
   //Check status for confirm
   if (reservation.reservationStatus === 'مؤكد') {
-    await JourneyIncom.findOneAndDelete({ reservation: reservation._id });
+    await JourneyIncom.findOneAndDelete({
+      reservation: reservation._id.toString(),
+    });
 
     //Create a global expense to balance income
     let jrnCategory = await FinCategory.findOne({
@@ -347,7 +357,7 @@ const deleteReservation = asyncHandler(async (req, res) => {
       txType: 'expense',
       category: jrnCategory._id,
       amount: reservation.amount,
-      description: `Journey ${jrn.journeyNumber} ${customerName} Reservation Delete`,
+      description: `Journey ${journey.journeyNumber} ${JourneyIncom.desc} Reservation Delete`,
     });
   }
 

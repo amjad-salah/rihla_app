@@ -8,7 +8,9 @@ import FinCategory from '../models/finCategoryModel.js';
 //@rotue  GET /api/journeys/:code/expenses
 //@access Private
 const getAllExpenses = asyncHandler(async (req, res) => {
-  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('departureCity arrivalCity');
 
   if (!journey) {
     res.status(404);
@@ -25,7 +27,9 @@ const getAllExpenses = asyncHandler(async (req, res) => {
 //@rotue  GET /api/journeys/:code/expenses/:id
 //@access Private
 const getExpense = asyncHandler(async (req, res) => {
-  const journey = await Journey.findOne({ journeyNumber: req.params.code });
+  const journey = await Journey.findOne({
+    journeyNumber: req.params.code,
+  }).populate('departureCity arrivalCity');
 
   if (!journey) {
     res.status(404);
@@ -78,7 +82,7 @@ const createExpense = asyncHandler(async (req, res) => {
     txType: 'expense',
     category: jrnCategory._id,
     amount,
-    description: `Journey ${journey.journeyNumber} ${desc}`,
+    description: `Journey ${journey.journeyNumber} - ${expType} - ${desc}`,
   });
 
   const newExpense = await JourneyExpense.create({
@@ -154,7 +158,7 @@ const deleteExpense = asyncHandler(async (req, res) => {
     txType: 'income',
     category: jrnCategory._id,
     amount: expense.amount,
-    description: `Journey ${jrn.journeyNumber} - ${desc} Epxpense Deleted`,
+    description: `Journey ${journey.journeyNumber} - ${expense.expType} - ${expense.desc} Epxpense Deleted`,
   });
 
   await JourneyExpense.findByIdAndDelete(req.params.id);
