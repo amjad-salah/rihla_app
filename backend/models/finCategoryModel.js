@@ -17,14 +17,8 @@ const finCategorySchema = mongoose.Schema(
   }
 );
 
-finCategorySchema.virtual('incomes', {
-  ref: 'Income',
-  localField: '_id',
-  foreignField: 'category',
-});
-
-finCategorySchema.virtual('expenses', {
-  ref: 'Expense',
+finCategorySchema.virtual('transactions', {
+  ref: 'Transaction',
   localField: '_id',
   foreignField: 'category',
 });

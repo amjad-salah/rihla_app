@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
 
-const expenseSchema = mongoose.Schema(
+const transactionSchema = mongoose.Schema(
   {
+    txType: {
+      type: String,
+      required: true,
+      enum: ['income', 'expense'],
+    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'FinCategory',
@@ -20,6 +25,6 @@ const expenseSchema = mongoose.Schema(
   }
 );
 
-const Expense = mongoose.model('Expense', expenseSchema);
+const Transaction = mongoose.model('Transaction', transactionSchema);
 
-export default Expense;
+export default Transaction;
