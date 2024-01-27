@@ -1,4 +1,6 @@
 import express from 'express';
+import protect from '../middleware/authMiddleware.js';
+
 import {
   createVehicle,
   deleteVehicle,
@@ -13,14 +15,21 @@ import {
 
 const router = express.Router();
 
-router.route('/').get(getAllVehicles).post(createVehicle);
+router.route('/').get(protect, getAllVehicles).post(protect, createVehicle);
 
-router.route('/:code').get(getVehicle).put(updateVehicle).delete(deleteVehicle);
+router
+  .route('/:code')
+  .get(protect, getVehicle)
+  .put(protect, updateVehicle)
+  .delete(protect, deleteVehicle);
 
-router.route('/:code/journeys').get(getVehicleJrs);
+router.route('/:code/journeys').get(protect, getVehicleJrs);
 
-router.route('/:code/expenses').get(getVehicleExps).post(createVehicleExp);
+router
+  .route('/:code/expenses')
+  .get(protect, getVehicleExps)
+  .post(protect, createVehicleExp);
 
-router.route('/:code/expenses/:id').delete(deleteVehicleExp);
+router.route('/:code/expenses/:id').delete(protect, deleteVehicleExp);
 
 export default router;

@@ -72,6 +72,18 @@ const deleteUser = asyncHandler(async (req, res) => {
 //@rotue  POST /api/users/auth
 //@access Public
 const authUser = asyncHandler(async (req, res) => {
+  //Check for defualt admin user
+  const adminUser = await User.findOne({ userName: 'admin' });
+
+  //Craete the admin user if not exists
+  if (!adminUser) {
+    await User.create({
+      fullName: 'Admin',
+      userName: 'admin',
+      password: 'Admin123',
+    });
+  }
+
   const { userName, password } = req.body;
 
   if (!userName || !password) {

@@ -1,4 +1,6 @@
 import express from 'express';
+import protect from '../middleware/authMiddleware.js';
+
 import {
   getAllDrivers,
   getDriver,
@@ -9,8 +11,12 @@ import {
 
 const router = express.Router();
 
-router.route('/').get(getAllDrivers).post(createDriver);
+router.route('/').get(protect, getAllDrivers).post(protect, createDriver);
 
-router.route('/:id').get(getDriver).put(updateDriver).delete(deleteDriver);
+router
+  .route('/:id')
+  .get(protect, getDriver)
+  .put(protect, updateDriver)
+  .delete(protect, deleteDriver);
 
 export default router;
