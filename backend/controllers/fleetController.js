@@ -2,7 +2,8 @@ import asyncHandler from 'express-async-handler';
 import Vehicle from '../models/vehicleModel.js';
 import Journey from '../models/journeyModel.js';
 import VehicleExpense from '../models/vehicleExpModel.js';
-
+import FinCategory from '../models/finCategoryModel.js';
+import Transaction from '../models/transactionModel.js';
 //@desc Get All Vehicles
 //@rotue  GET /api/fleet
 //@access Private
@@ -158,6 +159,27 @@ const createVehicleExp = asyncHandler(async (req, res) => {
     vehicle: vehicle._id,
   });
 
+  //Create a global expense
+  let vehCategory = await FinCategory.findOne({
+    catName: 'المركبات',
+    catType: 'expense',
+  });
+
+  if (!vehCategory) {
+    vehCategory = await FinCategory.create({
+      catName: 'المركبات',
+      catType: 'expense',
+    });
+  }
+
+  //Create expense
+  await Transaction.create({
+    txType: 'expense',
+    category: vehCategory._id,
+    amount,
+    description: `Vehicle ${vehicle.vehCode} - ${expType} - ${desc}`,
+  });
+
   res.status(200).json({ newExpenses });
 });
 
@@ -178,6 +200,27 @@ const deleteVehicleExp = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Expense Not Found');
   }
+
+  //Create a global income to balance the expense
+  let vehCategory = await FinCategory.findOne({
+    catName: 'المركبات',
+    catType: 'income',
+  });
+
+  if (!vehCategory) {
+    vehCategory = await FinCategory.create({
+      catName: 'المركبات',
+      catType: 'income',
+    });
+  }
+
+  //Create expense
+  await Transaction.create({
+    txType: 'income',
+    category: vehCategory._id,
+    amount: expense.amount,
+    description: `Vehicle ${vehicle.vehCode} - ${expType} - ${desc} expense deleted`,
+  });
 
   await VehicleExpense.findByIdAndDelete(req.params.id);
 
