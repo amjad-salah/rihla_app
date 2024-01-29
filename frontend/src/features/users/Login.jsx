@@ -1,18 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 
+import { useLoginMutation } from './userApiSlice';
+import { setCredentail } from './authSlice';
 import FormContainer from '../../components/FromContainer';
+import { toast } from 'react-toastify';
+import Loader from '../../components/Loader';
 
 const Login = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [login, { isLoading }] = useLoginMutation();
+
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log('Submitted');
+
+    try {
+      const res = await login({ userName, password }).unwrap();
+
+      dispatch(setCredentail({ ...res }));
+
+      navigate('/');
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
   };
   return (
     <FormContainer>
+      {isLoading && <Loader />}
       <h1>تسجيل الدخول</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='userName'>
@@ -21,7 +50,6 @@ const Login = () => {
             type='text'
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
-            name='userName'
           ></Form.Control>
         </Form.Group>
         <Form.Group className='my-2' controlId='password'>
@@ -30,7 +58,6 @@ const Login = () => {
             type='password'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            name='password'
           ></Form.Control>
         </Form.Group>
         <Button type='submit' variant='primary' className='mt-3'>
