@@ -1,4 +1,6 @@
-import express, { urlencoded } from 'express';
+import express from 'express';
+import * as url from 'url';
+
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDb from './config/db.js';
@@ -25,8 +27,10 @@ app.use(express.urlencoded({ extended: true }));
 //Cookie Parser
 app.use(cookieParser());
 
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
 app.get('/', (req, res) =>
-  res.json({ success: true, data: 'Rihla App API Backend!' })
+  res.sendFile('public/index.html', { root: __dirname })
 );
 
 //Users Routes

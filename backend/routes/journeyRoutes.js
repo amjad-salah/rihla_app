@@ -52,7 +52,7 @@ router
   .put(protect, updateReservation)
   .delete(protect, deleteReservation);
 
-router.route('/:code/confirm-reserv').get(protect, getConfirmedReservations);
+router.route('/:code/confirmed').get(protect, getConfirmedReservations);
 
 router
   .route('/:code/incomes')
