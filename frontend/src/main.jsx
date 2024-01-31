@@ -14,12 +14,16 @@ import './index.css';
 import App from './App.jsx';
 import Home from './features/Home.jsx';
 import Login from './features/users/Login.jsx';
+import UsersList from './features/users/UsersList.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
       <Route index={true} path='/' element={<Home />} />
       <Route path='/login' element={<Login />} />
+      <Route path='/users'>
+        <Route index={true} path='/users' element={<UsersList />} />
+      </Route>
     </Route>
   )
 );

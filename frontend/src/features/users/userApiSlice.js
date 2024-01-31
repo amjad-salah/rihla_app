@@ -13,12 +13,13 @@ export const userApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Users'],
     }),
     logout: builder.query({
-      query: () => ({
-        url: `${USERS_URL}/auth`,
-      }),
-      providesTags: ['Users'],
+      query: () => `${USERS_URL}/auth`,
+    }),
+    getAllUsers: builder.query({
+      query: () => `${USERS_URL}`,
     }),
   }),
 });
 
-export const { useLoginMutation, useLogoutQuery } = userApiSlice;
+export const { useLoginMutation, useLazyLogoutQuery, useGetAllUsersQuery } =
+  userApiSlice;
