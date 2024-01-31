@@ -3,16 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearCredential } from './authSlice';
 
-import { FaInfoCircle, FaEdit } from 'react-icons/fa';
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import Loader from '../../components/Loader';
-import { useGetAllUsersQuery } from './userApiSlice';
-import { Container, Table } from 'react-bootstrap';
+import { useGetAllUsersQuery, useDeleteUserMutation } from './userApiSlice';
+import { Container, Table, Button } from 'react-bootstrap';
 
 const UsersList = () => {
   const { data, isLoading, isError, error } = useGetAllUsersQuery();
+  const [deleteUser] = useDeleteUserMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -24,6 +25,16 @@ const UsersList = () => {
     }
   }, [navigate, dispatch, error]);
 
+  const deleteHandle = async (id) => {
+    try {
+      const res = await deleteUser(id);
+
+      toast.success(res.message);
+    } catch (err) {
+      toast.error(err?.error?.message);
+    }
+  };
+
   let content;
 
   if (isLoading) {
@@ -31,7 +42,7 @@ const UsersList = () => {
   }
 
   if (isError) {
-    content = toast.error(error?.message);
+    toast.error(error?.message);
   }
 
   if (data) {
@@ -39,7 +50,7 @@ const UsersList = () => {
       <>
         <h1 className='text-center mb-2'>المستخدمين</h1>
         <hr className='mb-5' />
-        <Table striped hover responsive>
+        <Table striped hover responsive id='usersTable'>
           <thead>
             <tr>
               <th>اﻹسم</th>
@@ -54,19 +65,22 @@ const UsersList = () => {
                 <td>{user.fullName}</td>
                 <td>{user.userName}</td>
                 <td>{moment(user.createdAt).format('L')}</td>
-                <td className='text-center'>
-                  <Link
-                    to={`/users/${user._id}`}
-                    style={{ display: 'inline-block', marginLeft: '10px' }}
-                  >
-                    <FaInfoCircle size={28} />
-                  </Link>
+                <td className='text-center d-print-none'>
                   <Link
                     to={`/users/edit/${user._id}`}
                     style={{ display: 'inline-block', marginLeft: '10px' }}
+                    className='btn btn-light text-primary'
                   >
                     <FaEdit size={28} />
                   </Link>
+                  <Button
+                    style={{ display: 'inline-block', marginLeft: '10px' }}
+                    className='text-danger'
+                    variant='light'
+                    onClick={() => deleteHandle(user._id)}
+                  >
+                    <FaTrashAlt size={28} />
+                  </Button>
                 </td>
               </tr>
             ))}

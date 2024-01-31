@@ -44,13 +44,35 @@ const createUser = asyncHandler(async (req, res) => {
 
   const newUser = await User.create({ fullName, userName, password });
 
-  if (newUser) {
-    res.status(201).json({
-      _id: newUser._id,
-      fullName: newUser.fullName,
-      userName: newUser.userName,
-    });
+  res.status(201).json({
+    _id: newUser._id,
+    fullName: newUser.fullName,
+    userName: newUser.userName,
+  });
+});
+
+//@desc Update User
+//@rotue  PUT /api/users/:id
+//@access Private
+const updateUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User Not Found');
   }
+
+  user.fullName = req.body.fullName || user.fullName;
+  user.userName = req.body.userName || user.userName;
+  user.password = req.body.password || user.password;
+
+  const updateUser = await user.save();
+
+  res.status(200).json({
+    _id: updateUser._id,
+    fullName: updateUser.fullName,
+    userName: updateUser.userName,
+  });
 });
 
 //@desc Delete User
@@ -117,4 +139,12 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'User logged out' });
 });
 
-export { getAllUsers, getUser, createUser, deleteUser, logoutUser, authUser };
+export {
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  logoutUser,
+  authUser,
+};

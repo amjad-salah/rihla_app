@@ -37,12 +37,13 @@ const Login = () => {
       navigate('/');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
+      console.log(err);
     }
   };
   return (
     <FormContainer>
       {isLoading && <Loader />}
-      <h1>تسجيل الدخول</h1>
+      <h2>تسجيل الدخول</h2>
       <Form onSubmit={submitHandler}>
         <Form.Group className='my-2' controlId='userName'>
           <Form.Label>إسم المستخدم </Form.Label>
