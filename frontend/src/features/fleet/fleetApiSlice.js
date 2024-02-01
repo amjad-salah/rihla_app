@@ -8,7 +8,12 @@ export const fleetApiSlice = apiSlice.injectEndpoints({
       query: () => `${FLEET_URL}`,
       providesTags: ['Fleet'],
     }),
+
+    getVehicle: builder.query({
+      query: (code) => `${FLEET_URL}/${code}`,
+      providesTags: ['Fleet'],
+    }),
   }),
 });
 
-export const { useGetAllVehiclesQuery } = fleetApiSlice;
+export const { useGetAllVehiclesQuery, useGetVehicleQuery } = fleetApiSlice;

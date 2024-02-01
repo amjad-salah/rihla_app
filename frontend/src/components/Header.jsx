@@ -39,7 +39,15 @@ const Header = () => {
           <Navbar.Collapse id='navbar-nav'>
             {user ? (
               <>
-                <Nav>
+                <Nav className='d-print-none'>
+                  <NavDropdown title='المركبات' id='user'>
+                    <LinkContainer to='/fleet'>
+                      <NavDropdown.Item>عرض الكل</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/fleet/add'>
+                      <NavDropdown.Item>إضافة مركبة</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
                   <NavDropdown title='المستخدمين' id='user'>
                     <LinkContainer to='/users'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
@@ -49,7 +57,7 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
                 </Nav>
-                <Nav className='ms-auto'>
+                <Nav className='ms-auto d-print-none'>
                   <LinkContainer to='/' onClick={handleLogout}>
                     <Nav.Link>
                       خروج <FaSignOutAlt />

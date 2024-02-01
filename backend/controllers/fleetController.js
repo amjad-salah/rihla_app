@@ -4,6 +4,7 @@ import Journey from '../models/journeyModel.js';
 import VehicleExpense from '../models/vehicleExpModel.js';
 import FinCategory from '../models/finCategoryModel.js';
 import Transaction from '../models/transactionModel.js';
+
 //@desc Get All Vehicles
 //@rotue  GET /api/fleet
 //@access Private
@@ -25,7 +26,7 @@ const getVehicle = asyncHandler(async (req, res) => {
     throw new Error('Vehicle Not Found');
   }
   const journeys = await Journey.find({ vehicle: vehicle._id }).populate(
-    'incomes'
+    'incomes departureCity arrivalCity'
   );
 
   res.status(200).json({ vehicle, journeys });
@@ -118,7 +119,7 @@ const deleteVehicle = asyncHandler(async (req, res) => {
   res.status(200).json({ message: 'Vehicle deleted successfully!' });
 });
 
-//@desc  Get a Vehicle Journeys
+//@desc  Get All Vehicle Expenses
 //@rotue  GET /api/fleet/:code/expenses
 //@access Private
 const getVehicleExps = asyncHandler(async (req, res) => {
@@ -136,8 +137,8 @@ const getVehicleExps = asyncHandler(async (req, res) => {
   res.status(200).json({ expenses, vehicle });
 });
 
-//@desc  Get a Vehicle Journeys
-//@rotue  GET /api/fleet/:code/expenses
+//@desc  Create Vehicle Journeys
+//@rotue  POST /api/fleet/:code/expenses
 //@access Private
 const createVehicleExp = asyncHandler(async (req, res) => {
   const vehicle = await Vehicle.findOne({ vehCode: req.params.code });
@@ -183,8 +184,8 @@ const createVehicleExp = asyncHandler(async (req, res) => {
   res.status(200).json({ newExpenses });
 });
 
-//@desc  Get a Vehicle Journeys
-//@rotue  GET /api/fleet/:code/expenses/:id
+//@desc  Delete a Vehicle Expense
+//@rotue  Delete /api/fleet/:code/expenses/:id
 //@access Private
 const deleteVehicleExp = asyncHandler(async (req, res) => {
   const vehicle = await Vehicle.findOne({ vehCode: req.params.code });

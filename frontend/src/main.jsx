@@ -20,6 +20,8 @@ import UsersList from './features/users/UsersList.jsx';
 import AddUser from './features/users/AddUser.jsx';
 import User from './features/users/User.jsx';
 import UpdateUser from './features/users/UpdateUser.jsx';
+import FleetList from './features/fleet/FleetList.jsx';
+import Vehicle from './features/fleet/Vehicle.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +37,12 @@ const router = createBrowserRouter(
           <Route path='/users/add' element={<AddUser />} />
           <Route path='/users/:id' element={<User />} />
           <Route path='/users/edit/:id' element={<UpdateUser />} />
+        </Route>
+
+        {/* Fleet Routes */}
+        <Route path='/fleet'>
+          <Route index={true} path='/fleet' element={<FleetList />} />
+          <Route path='/fleet/:code' element={<Vehicle />} />
         </Route>
       </Route>
     </Route>
