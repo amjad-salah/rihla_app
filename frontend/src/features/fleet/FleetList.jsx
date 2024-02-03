@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearCredential } from '../users/authSlice';
@@ -9,12 +9,22 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import Loader from '../../components/Loader';
 import { useGetAllVehiclesQuery } from './fleetApiSlice';
-import { Container, Table, Button } from 'react-bootstrap';
+import {
+  Container,
+  Table,
+  Button,
+  Form,
+  Row,
+  Col,
+  InputGroup,
+} from 'react-bootstrap';
 
 const FleetList = () => {
   const { data, isLoading, isSuccess, isError, error } =
     useGetAllVehiclesQuery();
   // const [deleteUser] = useGetAllVehiclesQuery();
+
+  const [filter, setFilter] = useState('');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,6 +62,22 @@ const FleetList = () => {
       <>
         <h1 className='text-center mb-2'>المركبات</h1>
         <hr className='mb-5' />
+        <Form className='my-5'>
+          <Row>
+            <Col>
+              <InputGroup>
+                <Form.Control
+                  type='text'
+                  placeholder='بحث برمز المركبة'
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                />
+                <InputGroup.Text>بحث</InputGroup.Text>
+              </InputGroup>
+            </Col>
+            <Col></Col>
+          </Row>
+        </Form>
         <Table striped hover responsive id='usersTable'>
           <thead>
             <tr>
@@ -67,42 +93,92 @@ const FleetList = () => {
             </tr>
           </thead>
           <tbody>
-            {data.vehicles.map((vehicle) => (
-              <tr key={vehicle._id}>
-                <td>{vehicle.vehCode}</td>
-                <td>{`${vehicle.vehMake} - ${vehicle.vehModel} - ${vehicle.vehYear}`}</td>
-                <td>{vehicle.registerNumber}</td>
-                <td>{vehicle.vehType}</td>
-                <td>{vehicle.capacity}</td>
-                <td>{vehicle.status}</td>
-                <td>{vehicle.journeys.length}</td>
-                <td>{moment(vehicle.createdAt).format('L')}</td>
-                <td className='text-center d-print-none'>
-                  <Link
-                    to={`/fleet/${vehicle.vehCode}`}
-                    style={{ display: 'inline-block', marginLeft: '10px' }}
-                    className='btn btn-light text-primary'
-                  >
-                    <FaInfoCircle />
-                  </Link>
-                  <Link
-                    to={`/fleet/edit/${vehicle._id}`}
-                    style={{ display: 'inline-block', marginLeft: '10px' }}
-                    className='btn btn-light text-primary'
-                  >
-                    <FaEdit />
-                  </Link>
-                  <Button
-                    style={{ display: 'inline-block', marginLeft: '10px' }}
-                    className='text-danger'
-                    variant='light'
-                    // onClick={() => deleteHandle(user._id)}
-                  >
-                    <FaTrashAlt />
-                  </Button>
-                </td>
-              </tr>
-            ))}
+            {filter
+              ? data.vehicles
+                  .filter((vehicle) => {
+                    return vehicle.vehCode === Number(filter);
+                  })
+                  .map((vehicle) => (
+                    <tr key={vehicle._id}>
+                      <td>{vehicle.vehCode}</td>
+                      <td>{`${vehicle.vehMake} - ${vehicle.vehModel} - ${vehicle.vehYear}`}</td>
+                      <td>{vehicle.registerNumber}</td>
+                      <td>{vehicle.vehType}</td>
+                      <td>{vehicle.capacity}</td>
+                      <td>{vehicle.status}</td>
+                      <td>{vehicle.journeys.length}</td>
+                      <td>{moment(vehicle.createdAt).format('L')}</td>
+                      <td className='text-center d-print-none'>
+                        <Link
+                          to={`/fleet/${vehicle.vehCode}`}
+                          style={{
+                            display: 'inline-block',
+                            marginLeft: '10px',
+                          }}
+                          className='btn btn-light text-primary'
+                        >
+                          <FaInfoCircle />
+                        </Link>
+                        <Link
+                          to={`/fleet/edit/${vehicle._id}`}
+                          style={{
+                            display: 'inline-block',
+                            marginLeft: '10px',
+                          }}
+                          className='btn btn-light text-primary'
+                        >
+                          <FaEdit />
+                        </Link>
+                        <Button
+                          style={{
+                            display: 'inline-block',
+                            marginLeft: '10px',
+                          }}
+                          className='text-danger'
+                          variant='light'
+                          // onClick={() => deleteHandle(user._id)}
+                        >
+                          <FaTrashAlt />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+              : data.vehicles.map((vehicle) => (
+                  <tr key={vehicle._id}>
+                    <td>{vehicle.vehCode}</td>
+                    <td>{`${vehicle.vehMake} - ${vehicle.vehModel} - ${vehicle.vehYear}`}</td>
+                    <td>{vehicle.registerNumber}</td>
+                    <td>{vehicle.vehType}</td>
+                    <td>{vehicle.capacity}</td>
+                    <td>{vehicle.status}</td>
+                    <td>{vehicle.journeys.length}</td>
+                    <td>{moment(vehicle.createdAt).format('L')}</td>
+                    <td className='text-center d-print-none'>
+                      <Link
+                        to={`/fleet/${vehicle.vehCode}`}
+                        style={{ display: 'inline-block', marginLeft: '10px' }}
+                        className='btn btn-light text-primary'
+                      >
+                        <FaInfoCircle />
+                      </Link>
+                      <Link
+                        to={`/fleet/edit/${vehicle._id}`}
+                        style={{ display: 'inline-block', marginLeft: '10px' }}
+                        className='btn btn-light text-primary'
+                      >
+                        <FaEdit />
+                      </Link>
+                      <Button
+                        style={{ display: 'inline-block', marginLeft: '10px' }}
+                        className='text-danger'
+                        variant='light'
+                        // onClick={() => deleteHandle(user._id)}
+                      >
+                        <FaTrashAlt />
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
           </tbody>
         </Table>
       </>
