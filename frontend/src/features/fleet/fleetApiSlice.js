@@ -22,8 +22,8 @@ export const fleetApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Fleet'],
     }),
     updateVehicle: builder.mutation({
-      query: (code, update) => ({
-        url: `${FLEET_URL}/${code}`,
+      query: (update) => ({
+        url: `${FLEET_URL}/${update.code}`,
         method: 'PUT',
         body: update,
       }),

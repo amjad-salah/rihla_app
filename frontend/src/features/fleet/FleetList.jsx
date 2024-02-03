@@ -88,7 +88,7 @@ const FleetList = () => {
               <th>السعة</th>
               <th>الحالة</th>
               <th>عدد الرحلات</th>
-              <th>تاريخ اﻹضافة</th>
+              <th>الصيانة القادمة</th>
               <th></th>
             </tr>
           </thead>
@@ -107,7 +107,7 @@ const FleetList = () => {
                       <td>{vehicle.capacity}</td>
                       <td>{vehicle.status}</td>
                       <td>{vehicle.journeys.length}</td>
-                      <td>{moment(vehicle.createdAt).format('L')}</td>
+                      <td>{moment(vehicle.nextMaintenanceDate).format('L')}</td>
                       <td className='text-center d-print-none'>
                         <Link
                           to={`/fleet/${vehicle.vehCode}`}
@@ -152,7 +152,7 @@ const FleetList = () => {
                     <td>{vehicle.capacity}</td>
                     <td>{vehicle.status}</td>
                     <td>{vehicle.journeys.length}</td>
-                    <td>{moment(vehicle.createdAt).format('L')}</td>
+                    <td>{moment(vehicle.nextMaintenanceDate).format('L')}</td>
                     <td className='text-center d-print-none'>
                       <Link
                         to={`/fleet/${vehicle.vehCode}`}
@@ -162,7 +162,7 @@ const FleetList = () => {
                         <FaInfoCircle />
                       </Link>
                       <Link
-                        to={`/fleet/edit/${vehicle._id}`}
+                        to={`/fleet/edit/${vehicle.vehCode}`}
                         style={{ display: 'inline-block', marginLeft: '10px' }}
                         className='btn btn-light text-primary'
                       >
