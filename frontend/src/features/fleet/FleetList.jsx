@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearCredential } from '../users/authSlice';
 
-import { FaTrashAlt, FaEdit, FaInfoCircle } from 'react-icons/fa';
+import { FaTrashAlt, FaEdit, FaInfoCircle, FaMoneyBill } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import Loader from '../../components/Loader';
-import { useGetAllVehiclesQuery } from './fleetApiSlice';
+import {
+  useGetAllVehiclesQuery,
+  useDeleteVehicleMutation,
+} from './fleetApiSlice';
 import {
   Container,
   Table,
@@ -22,7 +25,7 @@ import {
 const FleetList = () => {
   const { data, isLoading, isSuccess, isError, error } =
     useGetAllVehiclesQuery();
-  // const [deleteUser] = useGetAllVehiclesQuery();
+  const [deleteVehicle] = useDeleteVehicleMutation();
 
   const [filter, setFilter] = useState('');
 
@@ -37,15 +40,15 @@ const FleetList = () => {
     }
   }, [navigate, dispatch, error]);
 
-  // const deleteHandle = async (id) => {
-  //   try {
-  //     const res = await deleteUser(id);
+  const deleteHandle = async (code) => {
+    try {
+      const res = await deleteVehicle(code);
 
-  //     toast.success(res.message);
-  //   } catch (err) {
-  //     toast.error(err?.error?.message);
-  //   }
-  // };
+      toast.success(res.message);
+    } catch (err) {
+      toast.error(err?.error?.message);
+    }
+  };
 
   let content;
 
@@ -145,7 +148,11 @@ const FleetList = () => {
                   ))
               : data.vehicles.map((vehicle) => (
                   <tr key={vehicle._id}>
-                    <td>{vehicle.vehCode}</td>
+                    <td>
+                      <Link to={`/fleet/${vehicle.vehCode}`} title='التفاصيل'>
+                        {vehicle.vehCode}
+                      </Link>
+                    </td>
                     <td>{`${vehicle.vehMake} - ${vehicle.vehModel} - ${vehicle.vehYear}`}</td>
                     <td>{vehicle.registerNumber}</td>
                     <td>{vehicle.vehType}</td>
@@ -155,16 +162,10 @@ const FleetList = () => {
                     <td>{moment(vehicle.nextMaintenanceDate).format('L')}</td>
                     <td className='text-center d-print-none'>
                       <Link
-                        to={`/fleet/${vehicle.vehCode}`}
-                        style={{ display: 'inline-block', marginLeft: '10px' }}
-                        className='btn btn-light text-primary'
-                      >
-                        <FaInfoCircle />
-                      </Link>
-                      <Link
                         to={`/fleet/edit/${vehicle.vehCode}`}
                         style={{ display: 'inline-block', marginLeft: '10px' }}
                         className='btn btn-light text-primary'
+                        title='تعديل'
                       >
                         <FaEdit />
                       </Link>
@@ -172,10 +173,19 @@ const FleetList = () => {
                         style={{ display: 'inline-block', marginLeft: '10px' }}
                         className='text-danger'
                         variant='light'
-                        // onClick={() => deleteHandle(user._id)}
+                        onClick={() => deleteHandle(vehicle.vehCode)}
+                        title='مسح'
                       >
                         <FaTrashAlt />
                       </Button>
+                      <Link
+                        to={`/fleet/${vehicle.vehCode}/expenses`}
+                        style={{ display: 'inline-block', marginLeft: '10px' }}
+                        className='btn btn-light text-warning'
+                        title='المصروفات'
+                      >
+                        <FaMoneyBill />
+                      </Link>
                     </td>
                   </tr>
                 ))}
@@ -185,7 +195,7 @@ const FleetList = () => {
     );
   }
 
-  return <Container className='pt-5 mt-5'>{content}</Container>;
+  return <Container>{content}</Container>;
 };
 
 export default FleetList;

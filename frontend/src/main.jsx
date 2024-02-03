@@ -24,6 +24,7 @@ import FleetList from './features/fleet/FleetList.jsx';
 import Vehicle from './features/fleet/Vehicle.jsx';
 import AddVehicle from './features/fleet/AddVehicle.jsx';
 import UpdateVehicle from './features/fleet/UpdateVehicle.jsx';
+import VehicleExpenses from './features/fleet/VehicleExpenses.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,6 +48,7 @@ const router = createBrowserRouter(
           <Route path='/fleet/:code' element={<Vehicle />} />
           <Route path='/fleet/add' element={<AddVehicle />} />
           <Route path='/fleet/edit/:code' element={<UpdateVehicle />} />
+          <Route path='/fleet/:code/expenses' element={<VehicleExpenses />} />
         </Route>
       </Route>
     </Route>

@@ -8,7 +8,7 @@ import { clearCredential } from '../users/authSlice';
 import Loader from '../../components/Loader';
 import { toast } from 'react-toastify';
 import { Card, Container, Row, Col, Table } from 'react-bootstrap';
-import { FaBusAlt, FaMoneyBill } from 'react-icons/fa';
+import { FaMoneyBill } from 'react-icons/fa';
 
 const Vehicle = () => {
   const { code } = useParams();
@@ -41,7 +41,7 @@ const Vehicle = () => {
         totalExp += exp.amount;
       });
     }
-    if (data.journeys.incomes) {
+    if (data.journeys) {
       data.journeys.map((journey) =>
         journey.incomes.map((inc) => {
           totalInc += inc.amount;
@@ -89,9 +89,24 @@ const Vehicle = () => {
                 {moment(data.vehicle.createdAt).format('L')}
               </Col>
             </Row>
+            <Row className='mt-4'>
+              <Col>
+                <span className='fw-bold'>إجمالي المصروفات: </span>
+                {totalExp}
+              </Col>
+              <Col>
+                <span className='fw-bold'>إجمالي الدخل: </span>
+                {totalInc}
+              </Col>
+              <Col>
+                <span className='fw-bold'>صافي الدخل: </span>
+                {totalInc - totalExp}
+              </Col>
+              <Col></Col>
+            </Row>
           </Card.Body>
         </Card>
-        <Card className='p-4 mt-4'>
+        {/* <Card className='p-4 mt-4'>
           <Card.Body>
             <h4>
               <FaMoneyBill /> المصروفات
@@ -157,7 +172,7 @@ const Vehicle = () => {
             </Table>
           </Card.Body>
         </Card>
-        <h4 className='mt-5'>صافي الدخل: {totalInc - totalExp}</h4>
+        <h4 className='mt-5'>صافي الدخل: {totalInc - totalExp}</h4> */}
       </>
     );
   }
@@ -165,7 +180,7 @@ const Vehicle = () => {
   return (
     <>
       {isError && toast.error(error?.data?.message)}
-      <Container className=''>{content}</Container>
+      <Container>{content}</Container>
     </>
   );
 };
