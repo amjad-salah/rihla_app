@@ -16,6 +16,7 @@ const errorHandler = (err, req, res, next) => {
 
     message = 'Resource Not Found';
   }
+  console.log(err.stack);
 
   res.status(statusCode).json({
     message,

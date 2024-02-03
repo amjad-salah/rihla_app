@@ -53,7 +53,6 @@ const createVehicle = asyncHandler(async (req, res) => {
     !vehYear ||
     !registerNumber ||
     !vehType ||
-    !capacity ||
     !status ||
     !nextMaintenanceDate
   ) {

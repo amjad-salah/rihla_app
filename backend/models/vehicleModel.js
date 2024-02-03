@@ -26,7 +26,6 @@ const vehicleSchema = mongoose.Schema(
     },
     capacity: {
       type: String,
-      required: true,
     },
     status: {
       type: String,

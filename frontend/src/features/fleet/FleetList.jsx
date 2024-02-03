@@ -62,7 +62,7 @@ const FleetList = () => {
       <>
         <h1 className='text-center mb-2'>المركبات</h1>
         <hr className='mb-5' />
-        <Form className='my-5'>
+        <Form className='my-5 d-print-none'>
           <Row>
             <Col>
               <InputGroup>
