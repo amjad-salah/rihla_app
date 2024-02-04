@@ -99,11 +99,15 @@ const FleetList = () => {
             {filter
               ? data.vehicles
                   .filter((vehicle) => {
-                    return vehicle.vehCode === Number(filter);
+                    return vehicle.vehCode === filter;
                   })
                   .map((vehicle) => (
                     <tr key={vehicle._id}>
-                      <td>{vehicle.vehCode}</td>
+                      <td>
+                        <Link to={`/fleet/${vehicle.vehCode}`} title='التفاصيل'>
+                          {vehicle.vehCode}
+                        </Link>
+                      </td>
                       <td>{`${vehicle.vehMake} - ${vehicle.vehModel} - ${vehicle.vehYear}`}</td>
                       <td>{vehicle.registerNumber}</td>
                       <td>{vehicle.vehType}</td>
@@ -181,7 +185,7 @@ const FleetList = () => {
                       <Link
                         to={`/fleet/${vehicle.vehCode}/expenses`}
                         style={{ display: 'inline-block', marginLeft: '10px' }}
-                        className='btn btn-light text-warning'
+                        className='btn btn-light text-success'
                         title='المصروفات'
                       >
                         <FaMoneyBill />

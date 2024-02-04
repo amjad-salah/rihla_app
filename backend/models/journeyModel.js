@@ -21,7 +21,7 @@ const journeySchema = mongoose.Schema(
       required: true,
     },
     journeyNumber: {
-      type: Number,
+      type: String,
     },
     vehicle: {
       type: mongoose.Schema.Types.ObjectId,

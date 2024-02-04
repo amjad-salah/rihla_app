@@ -3,7 +3,10 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
-import { useGetVehicleExpsQuery } from './fleetApiSlice';
+import {
+  useGetVehicleExpsQuery,
+  useDeleteVehicleExpMutation,
+} from './fleetApiSlice';
 import { clearCredential } from '../users/authSlice';
 import Loader from '../../components/Loader';
 import { toast } from 'react-toastify';
@@ -15,6 +18,9 @@ const VehicleExpenses = () => {
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetVehicleExpsQuery(code);
+
+  const [deleteVehicleExp, { isLoading: loading, isError: isErr, error: err }] =
+    useDeleteVehicleExpMutation();
 
   let content;
   let totalExp = 0;
@@ -30,9 +36,15 @@ const VehicleExpenses = () => {
     }
   }, [navigate, dispatch, error]);
 
-  if (isLoading) {
-    content = <Loader />;
-  }
+  const deleteHandle = async (vehCode, id) => {
+    try {
+      console.log(vehCode, id);
+      const res = await deleteVehicleExp({ vehCode, id });
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+      console.log(err);
+    }
+  };
 
   if (isSuccess) {
     data.expenses.map((exp) => {
@@ -41,6 +53,8 @@ const VehicleExpenses = () => {
 
     content = (
       <>
+        {(isLoading || loading) && <Loader />}
+        {isErr && toast.error(err.data.message)}
         <h3 className='text-center mb-5'>{`مصروفات المركبة ${data.vehicle.vehCode}`}</h3>
         <Card className='p-4 mt-4'>
           <Card.Body>
@@ -83,7 +97,7 @@ const VehicleExpenses = () => {
                         style={{ display: 'inline-block', marginLeft: '10px' }}
                         className='text-danger'
                         variant='light'
-                        // onClick={() => deleteHandle(vehicle.vehCode)}
+                        onClick={() => deleteHandle(code, expense._id)}
                         title='مسح'
                       >
                         <FaTrashAlt />

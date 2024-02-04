@@ -33,7 +33,7 @@ const vehicleSchema = mongoose.Schema(
       enum: ['متوفر', 'في الطريق', 'في الصيانة'],
     },
     vehCode: {
-      type: Number,
+      type: String,
     },
     nextMaintenanceDate: {
       type: Date,

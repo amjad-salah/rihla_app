@@ -41,16 +41,16 @@ export const fleetApiSlice = apiSlice.injectEndpoints({
       providesTags: ['Fleet'],
     }),
     addVehicleExp: builder.mutation({
-      query: (code, expense) => ({
-        url: `${FLEET_URL}/${code}/expenses`,
+      query: (expense) => ({
+        url: `${FLEET_URL}/${expense.code}/expenses`,
         method: 'POST',
         body: expense,
       }),
       invalidatesTags: ['Fleet'],
     }),
     deleteVehicleExp: builder.mutation({
-      query: (code, id) => ({
-        url: `${FLEET_URL}/${code}/expenses/${id}`,
+      query: (data) => ({
+        url: `${FLEET_URL}/${data.vehCode}/expenses/${data.id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Fleet'],
