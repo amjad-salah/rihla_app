@@ -26,6 +26,10 @@ import AddVehicle from './features/fleet/AddVehicle.jsx';
 import UpdateVehicle from './features/fleet/UpdateVehicle.jsx';
 import VehicleExpenses from './features/fleet/VehicleExpenses.jsx';
 import AddVehicleExpense from './features/fleet/AddVehcileExpense.jsx';
+import DriversList from './features/drivers/DriversList.jsx';
+import AddDriver from './features/drivers/AddDriver.jsx';
+import Driver from './features/drivers/Driver.jsx';
+import UpdateDriver from './features/drivers/UpdateDriver.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,12 +52,20 @@ const router = createBrowserRouter(
           <Route index={true} path='/fleet' element={<FleetList />} />
           <Route path='/fleet/:code' element={<Vehicle />} />
           <Route path='/fleet/add' element={<AddVehicle />} />
-          <Route path='/fleet/edit/:code' element={<UpdateVehicle />} />
+          <Route path='/fleet/edit/:id' element={<UpdateVehicle />} />
           <Route path='/fleet/:code/expenses' element={<VehicleExpenses />} />
           <Route
             path='/fleet/:code/expenses/add'
             element={<AddVehicleExpense />}
           />
+        </Route>
+
+        {/* Drivers Route */}
+        <Route path='/drivers'>
+          <Route index={true} path='/drivers' element={<DriversList />} />
+          <Route path='/drivers/:id' element={<Driver />} />
+          <Route path='/drivers/add' element={<AddDriver />} />
+          <Route path='/drivers/edit/:id' element={<UpdateDriver />} />
         </Route>
       </Route>
     </Route>

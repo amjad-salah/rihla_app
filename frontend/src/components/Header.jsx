@@ -48,6 +48,14 @@ const Header = () => {
                       <NavDropdown.Item>إضافة مركبة</NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>
+                  <NavDropdown title='السائقين' id='user'>
+                    <LinkContainer to='/drivers'>
+                      <NavDropdown.Item>عرض الكل</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/drivers/add'>
+                      <NavDropdown.Item>إضافة سائق</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
                   <NavDropdown title='المستخدمين' id='user'>
                     <LinkContainer to='/users'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
