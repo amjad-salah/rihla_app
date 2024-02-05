@@ -49,8 +49,8 @@ export const fleetApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: ['Fleet'],
     }),
     deleteVehicleExp: builder.mutation({
-      query: (data) => ({
-        url: `${FLEET_URL}/${data.vehCode}/expenses/${data.id}`,
+      query: ({ code, id }) => ({
+        url: `${FLEET_URL}/${code}/expenses/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Fleet'],

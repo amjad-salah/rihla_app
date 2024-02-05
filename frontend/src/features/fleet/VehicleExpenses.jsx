@@ -36,10 +36,9 @@ const VehicleExpenses = () => {
     }
   }, [navigate, dispatch, error]);
 
-  const deleteHandle = async (vehCode, id) => {
+  const deleteHandle = async (id) => {
     try {
-      console.log(vehCode, id);
-      const res = await deleteVehicleExp({ vehCode, id });
+      const res = await deleteVehicleExp({ code, id });
     } catch (err) {
       toast.error(err?.data?.message || err.error);
       console.log(err);
@@ -97,7 +96,7 @@ const VehicleExpenses = () => {
                         style={{ display: 'inline-block', marginLeft: '10px' }}
                         className='text-danger'
                         variant='light'
-                        onClick={() => deleteHandle(code, expense._id)}
+                        onClick={() => deleteHandle(expense._id)}
                         title='مسح'
                       >
                         <FaTrashAlt />

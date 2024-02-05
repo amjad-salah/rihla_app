@@ -140,7 +140,6 @@ const getVehicleExps = asyncHandler(async (req, res) => {
 //@rotue  POST /api/fleet/:code/expenses
 //@access Private
 const createVehicleExp = asyncHandler(async (req, res) => {
-  console.log(req.params.code);
   const vehicle = await Vehicle.findOne({ vehCode: req.params.code });
 
   if (!vehicle) {
@@ -220,7 +219,7 @@ const deleteVehicleExp = asyncHandler(async (req, res) => {
     txType: 'income',
     category: vehCategory._id,
     amount: expense.amount,
-    description: `Vehicle ${vehicle.vehCode} - ${expType} - ${desc} expense deleted`,
+    description: `Vehicle ${vehicle.vehCode} - ${expense.expType} - ${expense.desc} expense deleted`,
   });
 
   await VehicleExpense.findByIdAndDelete(req.params.id);
