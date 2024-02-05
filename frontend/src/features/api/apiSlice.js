@@ -7,6 +7,6 @@ const baseQuery = fetchBaseQuery({
 export const apiSlice = createApi({
   reducerPath: 'RihlaApi',
   baseQuery,
-  tagTypes: ['Users', 'Fleet'],
+  tagTypes: ['Users', 'Fleet', 'Drivers'],
   endpoints: (builder) => ({}),
 });

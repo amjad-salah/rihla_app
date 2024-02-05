@@ -55,6 +55,12 @@ const VehicleExpenses = () => {
         {(isLoading || loading) && <Loader />}
         {isErr && toast.error(err.data.message)}
         <h3 className='text-center mb-5'>{`مصروفات المركبة ${data.vehicle.vehCode}`}</h3>
+        <Row>
+          <Col>
+            <span className='fw-bold'>تفاصيل المركبة: </span>
+            {`${data.vehicle.vehMake} - ${data.vehicle.vehModel} - ${data.vehicle.registerNumber}`}
+          </Col>
+        </Row>
         <Card className='p-4 mt-4'>
           <Card.Body>
             <Row className='mb-3'>
