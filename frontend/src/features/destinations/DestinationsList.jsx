@@ -6,7 +6,6 @@ import { clearCredential } from '../users/authSlice';
 import { FaTrashAlt, FaEdit, FaFolderOpen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import moment from 'moment';
 import Loader from '../../components/Loader';
 import {
   useGetAllDestinationsQuery,

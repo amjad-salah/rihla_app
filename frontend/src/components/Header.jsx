@@ -3,9 +3,11 @@ import { useLazyLogoutQuery } from '../features/users/userApiSlice';
 import { clearCredential } from '../features/users/authSlice';
 
 import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
+import { DropdownSubmenu, NavDropdownMenu } from 'react-bootstrap-submenu';
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import 'react-bootstrap-submenu/dist/index.css';
 
 const Header = () => {
   const { user } = useSelector((state) => state.auth);
@@ -40,7 +42,7 @@ const Header = () => {
             {user ? (
               <>
                 <Nav className='d-print-none'>
-                  <NavDropdown title='المركبات' id='user'>
+                  <NavDropdown menuVariant='dark' title='المركبات' id='user'>
                     <LinkContainer to='/fleet'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>
@@ -49,7 +51,7 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
 
-                  <NavDropdown title='السائقين' id='user'>
+                  <NavDropdown menuVariant='dark' title='السائقين' id='user'>
                     <LinkContainer to='/drivers'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>
@@ -58,7 +60,7 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
 
-                  <NavDropdown title='الوجهات' id='user'>
+                  <NavDropdown menuVariant='dark' title='الوجهات' id='user'>
                     <LinkContainer to='/destinations'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>
@@ -67,7 +69,16 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
 
-                  <NavDropdown title='المستخدمين' id='user'>
+                  <NavDropdown menuVariant='dark' title='الرحلات' id='user'>
+                    <LinkContainer to='/journeys'>
+                      <NavDropdown.Item>عرض الكل</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/journeys/add'>
+                      <NavDropdown.Item>إضافة رحلة</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+
+                  <NavDropdown menuVariant='dark' title='المستخدمين' id='user'>
                     <LinkContainer to='/users'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>

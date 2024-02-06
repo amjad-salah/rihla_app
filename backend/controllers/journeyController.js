@@ -42,7 +42,6 @@ const createJourney = asyncHandler(async (req, res) => {
     departureCity,
     arrivalCity,
     departureTime,
-    status,
     vehicle,
     driver,
   } = req.body;
@@ -52,7 +51,6 @@ const createJourney = asyncHandler(async (req, res) => {
     !arrivalCity ||
     !departureCity ||
     !departureTime ||
-    !status ||
     !vehicle ||
     !driver
   ) {
@@ -100,7 +98,7 @@ const deleteJourney = asyncHandler(async (req, res) => {
 
   const reservations = await Reservation.find({ journey: journey._id });
 
-  if (reservations) {
+  if (reservations.length) {
     res.status(400);
     throw new Error('Journey has reservations');
   }
