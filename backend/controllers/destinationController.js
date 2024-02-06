@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Destination from '../models/destinationModel.js';
+import Journey from '../models/journeyModel.js';
 
 //@desc Get All Destinations
 //@rotue  GET /api/destinations
@@ -13,14 +14,18 @@ const getAllDestinations = asyncHandler(async (req, res) => {
 //@rotue  GET /api/destinations/:id
 //@access Private
 const getDestination = asyncHandler(async (req, res) => {
-  const destination = await Destination.findById(req.params.id).populate(
-    'fromCities toCities'
-  );
+  const destination = await Destination.findById(req.params.id);
+
   if (!destination) {
     res.status(404);
     throw new Error('Destination Not Found');
   }
-  res.status(200).json({ destination });
+
+  const journeys = await Journey.find({
+    $or: [{ departureCity: destination._id }, { arrivalCity: destination._id }],
+  }).populate('arrivalCity departureCity');
+
+  res.status(200).json({ destination, journeys });
 });
 
 //@desc Create Destination

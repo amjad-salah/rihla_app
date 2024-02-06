@@ -30,6 +30,9 @@ import DriversList from './features/drivers/DriversList.jsx';
 import AddDriver from './features/drivers/AddDriver.jsx';
 import Driver from './features/drivers/Driver.jsx';
 import UpdateDriver from './features/drivers/UpdateDriver.jsx';
+import DestinationsList from './features/destinations/DestinationsList.jsx';
+import AddDestination from './features/destinations/AddDestination.jsx';
+import Destination from './features/destinations/Destination.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -66,6 +69,17 @@ const router = createBrowserRouter(
           <Route path='/drivers/:id' element={<Driver />} />
           <Route path='/drivers/add' element={<AddDriver />} />
           <Route path='/drivers/edit/:id' element={<UpdateDriver />} />
+        </Route>
+
+        {/* Destinations Route */}
+        <Route path='/destinations'>
+          <Route
+            index={true}
+            path='/destinations'
+            element={<DestinationsList />}
+          />
+          <Route path='/destinations/:id' element={<Destination />} />
+          <Route path='/destinations/add' element={<AddDestination />} />
         </Route>
       </Route>
     </Route>

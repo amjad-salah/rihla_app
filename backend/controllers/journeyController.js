@@ -6,10 +6,15 @@ import Reservation from '../models/reservationModel.js';
 //@rotue  GET /api/journeys
 //@access Private
 const getAllJourneys = asyncHandler(async (req, res) => {
-  const journeys = await Journey.find()
+  const cargoJourneys = await Journey.find({ journeyType: 'شحن' })
     .sort('-createdAt')
     .populate('vehicle driver arrivalCity departureCity');
-  res.status(200).json({ journeys });
+
+  const passengersJourneys = await Journey.find({ journeyType: 'ركاب' })
+    .sort('-createdAt')
+    .populate('vehicle driver arrivalCity departureCity');
+
+  res.status(200).json({ cargoJourneys, passengersJourneys });
 });
 
 //@desc Get Single Journey
