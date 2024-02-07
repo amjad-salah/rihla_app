@@ -42,6 +42,7 @@ import JourneysList from './features/journeys/JourneysList.jsx';
 import AddJourney from './features/journeys/AddJourney.jsx';
 import Journey from './features/journeys/Journey.jsx';
 import Updatjourney from './features/journeys/UpdateJourney.jsx';
+import ReservationsList from './features/journeys/ReservationsList.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -97,7 +98,8 @@ const router = createBrowserRouter(
         <Route index={true} path='/journeys' element={<JourneysList />} />
         <Route path='/journeys/:code' element={<Journey />} />
         <Route path='/journeys/add' element={<AddJourney />} />
-        <Route path='/journeys/edit/:code' element={<Updatjourney />} />
+        <Route path='/journeys/:code' element={<Journey />} />
+        <Route path='/journeys/:code/reservs' element={<ReservationsList />} />
       </Route>
     </Route>
   )

@@ -35,6 +35,25 @@ export const journeysApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Journeys'],
     }),
+    getAllReservations: builder.query({
+      query: (journeyNo) => `${JOURNEYS_URL}/${journeyNo}/reservations`,
+      providesTags: ['Reservations'],
+    }),
+    addReservation: builder.mutation({
+      query: (reserv) => ({
+        url: `${JOURNEYS_URL}/${reserv.journeyNo}/reservations`,
+        method: 'POST',
+        body: reserv,
+      }),
+      invalidatesTags: ['Reservations'],
+    }),
+    deleteReservation: builder.mutation({
+      query: (reserv) => ({
+        url: `${JOURNEYS_URL}/${reserv.journeyNo}/reservations/${reserv.id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Reservations'],
+    }),
   }),
 });
 
@@ -44,4 +63,7 @@ export const {
   useAddJourneyMutation,
   useUpdateJourneyMutation,
   useDeleteJourneyMutation,
+  useGetAllReservationsQuery,
+  useAddReservationMutation,
+  useDeleteReservationMutation,
 } = journeysApiSlice;
