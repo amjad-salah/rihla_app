@@ -98,24 +98,24 @@ const JourneysList = () => {
                   })
                   .map((journey) => (
                     <tr key={journey.journeyNumber}>
-                      <td>{journey.journeyNumber}</td>
-                      <td>{moment(journey.departureTime).format('llll')}</td>
-                      <td>{journey.departureCity.city}</td>
-                      <td>{journey.arrivalCity.city}</td>
-                      <td>{journey.driver.fullName}</td>
-                      <td>{journey.vehicle.vehCode}</td>
-                      <td className='text-center d-print-none'>
+                      <td>
                         <Link
                           to={`/journeys/${journey.journeyNumber}`}
                           style={{
                             display: 'inline-block',
                             marginLeft: '10px',
                           }}
-                          className='btn btn-light text-primary'
                           title='التفاصل'
                         >
-                          <FaFolderOpen />
+                          {journey.journeyNumber}
                         </Link>
+                      </td>
+                      <td>{moment(journey.departureTime).format('llll')}</td>
+                      <td>{journey.departureCity.city}</td>
+                      <td>{journey.arrivalCity.city}</td>
+                      <td>{journey.driver.fullName}</td>
+                      <td>{journey.vehicle.vehCode}</td>
+                      <td className='text-center d-print-none'>
                         <Link
                           to={`/journeys/edit/${journey.journeyNumber}`}
                           style={{
@@ -144,24 +144,24 @@ const JourneysList = () => {
                   ))
               : data.cargoJourneys.map((journey) => (
                   <tr key={journey.journeyNumber}>
-                    <td>{journey.journeyNumber}</td>
-                    <td>{moment(journey.departureTime).format('llll')}</td>
-                    <td>{journey.departureCity.city}</td>
-                    <td>{journey.arrivalCity.city}</td>
-                    <td>{journey.driver.fullName}</td>
-                    <td>{journey.vehicle.vehCode}</td>
-                    <td className='text-center d-print-none'>
+                    <td>
                       <Link
                         to={`/journeys/${journey.journeyNumber}`}
                         style={{
                           display: 'inline-block',
                           marginLeft: '10px',
                         }}
-                        className='btn btn-light text-primary'
                         title='التفاصل'
                       >
-                        <FaFolderOpen />
+                        {journey.journeyNumber}
                       </Link>
+                    </td>
+                    <td>{moment(journey.departureTime).format('llll')}</td>
+                    <td>{journey.departureCity.city}</td>
+                    <td>{journey.arrivalCity.city}</td>
+                    <td>{journey.driver.fullName}</td>
+                    <td>{journey.vehicle.vehCode}</td>
+                    <td className='text-center d-print-none'>
                       <Link
                         to={`/journeys/edit/${journey.journeyNumber}`}
                         style={{
@@ -212,24 +212,24 @@ const JourneysList = () => {
                   })
                   .map((journey) => (
                     <tr key={journey.journeyNumber}>
-                      <td>{journey.journeyNumber}</td>
-                      <td>{moment(journey.departureTime).format('llll')}</td>
-                      <td>{journey.departureCity.city}</td>
-                      <td>{journey.arrivalCity.city}</td>
-                      <td>{journey.driver.fullName}</td>
-                      <td>{journey.vehicle.vehCode}</td>
-                      <td className='text-center d-print-none'>
+                      <td>
                         <Link
                           to={`/journeys/${journey.journeyNumber}`}
                           style={{
                             display: 'inline-block',
                             marginLeft: '10px',
                           }}
-                          className='btn btn-light text-primary'
                           title='التفاصل'
                         >
-                          <FaFolderOpen />
+                          {journey.journeyNumber}
                         </Link>
+                      </td>
+                      <td>{moment(journey.departureTime).format('llll')}</td>
+                      <td>{journey.departureCity.city}</td>
+                      <td>{journey.arrivalCity.city}</td>
+                      <td>{journey.driver.fullName}</td>
+                      <td>{journey.vehicle.vehCode}</td>
+                      <td className='text-center d-print-none'>
                         <Link
                           to={`/journeys/edit/${journey.journeyNumber}`}
                           style={{
@@ -258,24 +258,24 @@ const JourneysList = () => {
                   ))
               : data.passengersJourneys.map((journey) => (
                   <tr key={journey.journeyNumber}>
-                    <td>{journey.journeyNumber}</td>
-                    <td>{moment(journey.departureTime).format('llll')}</td>
-                    <td>{journey.departureCity.city}</td>
-                    <td>{journey.arrivalCity.city}</td>
-                    <td>{journey.driver.fullName}</td>
-                    <td>{journey.vehicle.vehCode}</td>
-                    <td className='text-center d-print-none'>
+                    <td>
                       <Link
                         to={`/journeys/${journey.journeyNumber}`}
                         style={{
                           display: 'inline-block',
                           marginLeft: '10px',
                         }}
-                        className='btn btn-light text-primary'
                         title='التفاصل'
                       >
-                        <FaFolderOpen />
+                        {journey.journeyNumber}
                       </Link>
+                    </td>
+                    <td>{moment(journey.departureTime).format('llll')}</td>
+                    <td>{journey.departureCity.city}</td>
+                    <td>{journey.arrivalCity.city}</td>
+                    <td>{journey.driver.fullName}</td>
+                    <td>{journey.vehicle.vehCode}</td>
+                    <td className='text-center d-print-none'>
                       <Link
                         to={`/journeys/edit/${journey.journeyNumber}`}
                         style={{

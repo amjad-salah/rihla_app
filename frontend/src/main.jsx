@@ -15,26 +15,33 @@ import App from './App.jsx';
 import PrivateRoutes from './components/PrivateRoutes.jsx';
 
 import Home from './features/Home.jsx';
+
 import Login from './features/users/Login.jsx';
 import UsersList from './features/users/UsersList.jsx';
 import AddUser from './features/users/AddUser.jsx';
 import User from './features/users/User.jsx';
 import UpdateUser from './features/users/UpdateUser.jsx';
+
 import FleetList from './features/fleet/FleetList.jsx';
 import Vehicle from './features/fleet/Vehicle.jsx';
 import AddVehicle from './features/fleet/AddVehicle.jsx';
 import UpdateVehicle from './features/fleet/UpdateVehicle.jsx';
 import VehicleExpenses from './features/fleet/VehicleExpenses.jsx';
 import AddVehicleExpense from './features/fleet/AddVehcileExpense.jsx';
+
 import DriversList from './features/drivers/DriversList.jsx';
 import AddDriver from './features/drivers/AddDriver.jsx';
 import Driver from './features/drivers/Driver.jsx';
 import UpdateDriver from './features/drivers/UpdateDriver.jsx';
+
 import DestinationsList from './features/destinations/DestinationsList.jsx';
 import AddDestination from './features/destinations/AddDestination.jsx';
 import Destination from './features/destinations/Destination.jsx';
+
 import JourneysList from './features/journeys/JourneysList.jsx';
 import AddJourney from './features/journeys/AddJourney.jsx';
+import Journey from './features/journeys/Journey.jsx';
+import Updatjourney from './features/journeys/UpdateJourney.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -88,8 +95,9 @@ const router = createBrowserRouter(
       {/* Journeys Route */}
       <Route path='/journeys'>
         <Route index={true} path='/journeys' element={<JourneysList />} />
-        <Route path='/journeys/:id' element={<Destination />} />
+        <Route path='/journeys/:code' element={<Journey />} />
         <Route path='/journeys/add' element={<AddJourney />} />
+        <Route path='/journeys/edit/:code' element={<Updatjourney />} />
       </Route>
     </Route>
   )
