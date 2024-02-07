@@ -1,6 +1,22 @@
 import { Container, Card } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearCredential } from '../features/users/authSlice';
+import { useGetUserQuery } from '../features/users/userApiSlice';
+import { useEffect } from 'react';
 
 const Hero = () => {
+  const { user } = useSelector((state) => state.auth);
+
+  const { data, isError, error } = useGetUserQuery(user?._id);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isError && error.status === 401) {
+      dispatch(clearCredential());
+    }
+  }, [isError, error, dispatch]);
+
   return (
     <div className='py-5'>
       <Container className='d-flex justify-content-center'>

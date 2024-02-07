@@ -3,11 +3,9 @@ import { useLazyLogoutQuery } from '../features/users/userApiSlice';
 import { clearCredential } from '../features/users/authSlice';
 
 import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
-import { DropdownSubmenu, NavDropdownMenu } from 'react-bootstrap-submenu';
 import { FaSignInAlt, FaSignOutAlt } from 'react-icons/fa';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import 'react-bootstrap-submenu/dist/index.css';
 
 const Header = () => {
   const { user } = useSelector((state) => state.auth);

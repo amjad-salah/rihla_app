@@ -12,7 +12,7 @@ import { Form, Button, Container } from 'react-bootstrap';
 import Loader from '../../components/Loader';
 
 const AddJourney = () => {
-  const [journeyType, setJourneyType] = useState('');
+  const [journeyType, setJourneyType] = useState('ركاب');
   const [departureCity, setDepartureCity] = useState('');
   const [arrivalCity, setArrivalCity] = useState('');
   const [departureTime, setDepartureTime] = useState('');
@@ -148,14 +148,14 @@ const AddJourney = () => {
                       .filter((veh) => veh.vehType !== 'شاحنة')
                       .map((veh) => (
                         <option key={veh._id} value={`${veh._id}`}>
-                          {veh.vehCode}
+                          {`${veh.vehMake} - ${veh.vehModel} - ${veh.vehYear}`}
                         </option>
                       ))
                   : vehicles.vehicles
                       .filter((veh) => veh.vehType === 'شاحنة')
                       .map((veh) => (
                         <option key={veh._id} value={`${veh._id}`}>
-                          {veh.vehCode}
+                          {`${veh.vehMake} - ${veh.vehModel} - ${veh.vehYear}`}
                         </option>
                       ))}
               </Form.Select>
