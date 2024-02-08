@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearCredential } from '../users/authSlice';
+import { useGetAllCompaniesQuery } from '../company/companyApiSlice';
 
 import { FaTrashAlt, FaEdit, FaFolderOpen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -25,6 +26,7 @@ import {
 const DriversList = () => {
   const [filter, setFilter] = useState('');
 
+  const { data: companies, isLoading: comLoading } = useGetAllCompaniesQuery();
   const { data, isLoading, isSuccess, isError, error } =
     useGetAllDriversQuery();
   const [deleteDriver] = useDeleteDriverMutation();
@@ -59,8 +61,16 @@ const DriversList = () => {
   if (isSuccess) {
     content = (
       <>
-        <h1 className='text-center mb-2'>السائقين</h1>
+        {companies.companies.length && (
+          <Row className='mb-1 text-center align-items-center'>
+            <Col>
+              <h5 className='fw-bold'>{companies.companies[0].name}</h5>
+              <p>{`${companies.companies[0].address} - ${companies.companies[0].phoneNumber} - ${companies.companies[0].email}`}</p>
+            </Col>
+          </Row>
+        )}
         <hr className='mb-5' />
+        <h6 className='text-center mb-2 fw-bold'>السائقين</h6>
         <Form className='my-5 d-print-none'>
           <Row>
             <Col>

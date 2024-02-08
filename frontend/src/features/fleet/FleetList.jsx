@@ -13,7 +13,6 @@ import {
   useDeleteVehicleMutation,
 } from './fleetApiSlice';
 import { useGetAllCompaniesQuery } from '../company/companyApiSlice';
-
 import {
   Container,
   Table,
