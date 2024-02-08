@@ -13,6 +13,7 @@ import destinationRoutes from './routes/destinationRoutes.js';
 import journeyRoutes from './routes/journeyRoutes.js';
 import finCatRoutes from './routes/finCatRoutes.js';
 import transactionRoutes from './routes/transactionRoutes.js';
+import companyRoutes from './routes/companyRoutes.js';
 
 dotenv.config();
 connectDb();
@@ -53,6 +54,9 @@ app.use('/api/fin-cats', finCatRoutes);
 
 //Transactions routes
 app.use('/api/transactions', transactionRoutes);
+
+//Company routes
+app.use('/api/companies', companyRoutes);
 
 //Error Handling
 app.use(notFound);

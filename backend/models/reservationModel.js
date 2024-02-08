@@ -13,6 +13,9 @@ const reservationSchema = mongoose.Schema(
     seatNumber: {
       type: String,
     },
+    passportNumber: {
+      type: String,
+    },
     reservationStatus: {
       type: String,
       required: true,

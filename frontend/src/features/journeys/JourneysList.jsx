@@ -12,6 +12,7 @@ import {
   useGetAllJourneysQuery,
   useDeleteJourneyMutation,
 } from './journeysApiSlice';
+import { useGetAllCompaniesQuery } from '../company/companyApiSlice';
 import {
   Container,
   Table,
@@ -24,6 +25,8 @@ import {
 
 const JourneysList = () => {
   const [filter, setFilter] = useState('');
+
+  const { data: companies, isLoading: comLoading } = useGetAllCompaniesQuery();
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetAllJourneysQuery();
@@ -59,8 +62,16 @@ const JourneysList = () => {
   if (isSuccess) {
     content = (
       <>
-        <h1 className='text-center mb-2'>الرحلات</h1>
+        {companies.companies.length && (
+          <Row className='mb-1 text-center align-items-center'>
+            <Col>
+              <h5 className='fw-bold'>{companies.companies[0].name}</h5>
+              <p>{`${companies.companies[0].address} - ${companies.companies[0].phoneNumber} - ${companies.companies[0].email}`}</p>
+            </Col>
+          </Row>
+        )}
         <hr className='mb-5' />
+        <h6 className='text-center fw-bold mb-2'>الرحلات</h6>
         <Form className='my-5 d-print-none'>
           <Row>
             <Col>
@@ -87,7 +98,7 @@ const JourneysList = () => {
               <th>الوصول إلى</th>
               <th>السائق</th>
               <th>المركبة</th>
-              <th></th>
+              <th className='d-print-none'></th>
             </tr>
           </thead>
           <tbody>

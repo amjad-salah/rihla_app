@@ -12,6 +12,8 @@ import {
   useGetAllVehiclesQuery,
   useDeleteVehicleMutation,
 } from './fleetApiSlice';
+import { useGetAllCompaniesQuery } from '../company/companyApiSlice';
+
 import {
   Container,
   Table,
@@ -23,6 +25,8 @@ import {
 } from 'react-bootstrap';
 
 const FleetList = () => {
+  const { data: companies, isLoading: comLoading } = useGetAllCompaniesQuery();
+
   const { data, isLoading, isSuccess, isError, error } =
     useGetAllVehiclesQuery();
   const [deleteVehicle] = useDeleteVehicleMutation();
@@ -63,8 +67,16 @@ const FleetList = () => {
   if (isSuccess) {
     content = (
       <>
-        <h1 className='text-center mb-2'>المركبات</h1>
+        {companies.companies.length && (
+          <Row className='mb-1 text-center align-items-center'>
+            <Col>
+              <h5 className='fw-bold'>{companies.companies[0].name}</h5>
+              <p>{`${companies.companies[0].address} - ${companies.companies[0].phoneNumber} - ${companies.companies[0].email}`}</p>
+            </Col>
+          </Row>
+        )}
         <hr className='mb-5' />
+        <h6 className='text-center mb-2 fw-bold'>المركبات</h6>
         <Form className='my-5 d-print-none'>
           <Row>
             <Col>

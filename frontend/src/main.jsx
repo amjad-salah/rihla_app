@@ -43,6 +43,7 @@ import AddJourney from './features/journeys/AddJourney.jsx';
 import Journey from './features/journeys/Journey.jsx';
 import Updatjourney from './features/journeys/UpdateJourney.jsx';
 import ReservationsList from './features/journeys/ReservationsList.jsx';
+import CompaniesList from './features/company/ComapniesList.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,6 +59,14 @@ const router = createBrowserRouter(
           <Route path='/users/add' element={<AddUser />} />
           <Route path='/users/:id' element={<User />} />
           <Route path='/users/edit/:id' element={<UpdateUser />} />
+        </Route>
+
+        {/* Users */}
+        <Route path='/companies'>
+          <Route index={true} path='/companies' element={<CompaniesList />} />
+          <Route path='/companies/add' element={<AddUser />} />
+          <Route path='/companies/:id' element={<User />} />
+          <Route path='/companies/edit/:id' element={<UpdateUser />} />
         </Route>
 
         {/* Fleet Routes */}

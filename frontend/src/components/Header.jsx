@@ -40,7 +40,15 @@ const Header = () => {
             {user ? (
               <>
                 <Nav className='d-print-none'>
-                  <NavDropdown menuVariant='dark' title='المركبات' id='user'>
+                  <LinkContainer to='/companies' className='mx-2'>
+                    <Nav.Link>الشركة</Nav.Link>
+                  </LinkContainer>
+                  <NavDropdown
+                    menuVariant='dark'
+                    className='mx-2'
+                    title='المركبات'
+                    id='user'
+                  >
                     <LinkContainer to='/fleet'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>
@@ -49,7 +57,12 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
 
-                  <NavDropdown menuVariant='dark' title='السائقين' id='user'>
+                  <NavDropdown
+                    menuVariant='dark'
+                    className='mx-2'
+                    title='السائقين'
+                    id='user'
+                  >
                     <LinkContainer to='/drivers'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>
@@ -58,7 +71,12 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
 
-                  <NavDropdown menuVariant='dark' title='الوجهات' id='user'>
+                  <NavDropdown
+                    menuVariant='dark'
+                    className='mx-2'
+                    title='الوجهات'
+                    id='user'
+                  >
                     <LinkContainer to='/destinations'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>
@@ -67,7 +85,12 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
 
-                  <NavDropdown menuVariant='dark' title='الرحلات' id='user'>
+                  <NavDropdown
+                    menuVariant='dark'
+                    className='mx-2'
+                    title='الرحلات'
+                    id='user'
+                  >
                     <LinkContainer to='/journeys'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>
@@ -76,7 +99,12 @@ const Header = () => {
                     </LinkContainer>
                   </NavDropdown>
 
-                  <NavDropdown menuVariant='dark' title='المستخدمين' id='user'>
+                  <NavDropdown
+                    menuVariant='dark'
+                    className='mx-2'
+                    title='المستخدمين'
+                    id='user'
+                  >
                     <LinkContainer to='/users'>
                       <NavDropdown.Item>عرض الكل</NavDropdown.Item>
                     </LinkContainer>

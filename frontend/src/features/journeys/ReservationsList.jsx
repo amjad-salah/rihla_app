@@ -13,6 +13,7 @@ import {
   useAddReservationMutation,
   useDeleteReservationMutation,
 } from './journeysApiSlice';
+import { useGetAllCompaniesQuery } from '../company/companyApiSlice';
 import {
   Container,
   Table,
@@ -32,6 +33,9 @@ const ReservationsList = () => {
   const [amount, setAmount] = useState(0);
   const [reservationStatus, setReservationStatus] = useState('مبدئي');
   const [seatNumber, setSeatNumber] = useState('');
+  const [passportNumber, setPassportNumber] = useState('');
+
+  const { data: companies, isLoading: comLoading } = useGetAllCompaniesQuery();
 
   const { data, isLoading, isSuccess, isError, error } =
     useGetAllReservationsQuery(code);
@@ -74,6 +78,7 @@ const ReservationsList = () => {
         seatNumber,
         amount,
         reservationStatus,
+        passportNumber,
       });
 
       setCustomerName('');
@@ -88,15 +93,23 @@ const ReservationsList = () => {
 
   let content;
 
-  if (isLoading) {
+  if (isLoading || comLoading) {
     content = <Loader />;
   }
 
   if (isSuccess) {
     content = (
       <>
-        <h1 className='text-center mb-2'>حجوزات الرحلة {code}</h1>
+        {companies.companies.length && (
+          <Row className='mb-1 text-center align-items-center'>
+            <Col>
+              <h5 className='fw-bold'>{companies.companies[0].name}</h5>
+              <p>{`${companies.companies[0].address} - ${companies.companies[0].phoneNumber} - ${companies.companies[0].email}`}</p>
+            </Col>
+          </Row>
+        )}
         <hr className='mb-5' />
+        <h6 className='text-center mb-4 fw-bold'>حجوزات الرحلة {code}</h6>
 
         {/* Add Form */}
         <Card className='p-4 mb-2 d-print-none'>
@@ -111,6 +124,16 @@ const ReservationsList = () => {
                     type='tex'
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>رقم الجواز</Form.Label>
+                  <Form.Control
+                    type='tex'
+                    value={passportNumber}
+                    onChange={(e) => setPassportNumber(e.target.value)}
                   ></Form.Control>
                 </Form.Group>
               </Col>
@@ -170,16 +193,30 @@ const ReservationsList = () => {
             <Col></Col>
           </Row>
         </Form>
-        <h4 className='mb-2'>الحجوزات</h4>
+        <Row className='mb-4'>
+          <Col>
+            <span className='fw-bold'>القيام: </span>
+            {data.journey.departureCity.city}
+          </Col>
+          <Col>
+            <span className='fw-bold'>الوصول: </span>
+            {data.journey.arrivalCity.city}
+          </Col>
+          <Col>
+            <span className='fw-bold'>التاريخ: </span>
+            {moment(data.journey.departureTime).format('llll')}
+          </Col>
+        </Row>
         <Table striped hover responsive className='mb-5'>
           <thead>
             <tr>
+              <th>رقم الرحلة</th>
               <th>أسم العميل</th>
+              <th>رقم الجواز</th>
               <th>رقم المقعد</th>
               <th>حالة الحجز</th>
-              <th>المبلغ</th>
-              <th>رقم الرحلة</th>
-              <th></th>
+              <th className='d-print-none'>المبلغ</th>
+              <th className='d-print-none'></th>
             </tr>
           </thead>
           <tbody>
@@ -192,11 +229,12 @@ const ReservationsList = () => {
                   )
                   .map((res) => (
                     <tr key={res._id}>
+                      <td>{code}</td>
                       <td>{res.customerName}</td>
+                      <td>{res.passportNumber}</td>
                       <td>{res.seatNumber}</td>
                       <td>{res.reservationStatus}</td>
-                      <td>{res.amount}</td>
-                      <td>{code}</td>
+                      <td className='d-print-none'>{res.amount}</td>
                       <td className='d-print-none'>
                         <Link
                           to={`/journeys/${code}/reservs/${res._d}`}
@@ -237,11 +275,12 @@ const ReservationsList = () => {
                   ))
               : data.reservations.map((res) => (
                   <tr key={res._id}>
+                    <td>{code}</td>
                     <td>{res.customerName}</td>
+                    <td>{res.passportNumber}</td>
                     <td>{res.seatNumber}</td>
                     <td>{res.reservationStatus}</td>
-                    <td>{res.amount}</td>
-                    <td>{code}</td>
+                    <td className='d-print-none'>{res.amount}</td>
                     <td className='d-print-none'>
                       <Link
                         to={`/journeys/${code}/reservs/${res._d}`}

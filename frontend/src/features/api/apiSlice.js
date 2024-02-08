@@ -14,6 +14,7 @@ export const apiSlice = createApi({
     'Destinations',
     'Journeys',
     'Reservations',
+    'Companies',
   ],
   endpoints: (builder) => ({}),
 });
