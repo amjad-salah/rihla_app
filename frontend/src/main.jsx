@@ -46,6 +46,8 @@ import ReservationsList from './features/journeys/ReservationsList.jsx';
 import CompaniesList from './features/company/ComapniesList.jsx';
 import Reservation from './features/journeys/Reservation.jsx';
 import UpdatResevation from './features/journeys/UpdateReservation.jsx';
+import JrnExpenses from './features/journeys/JrnExpenses.jsx';
+import JrnIncomes from './features/journeys/JrnIncomes.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -113,6 +115,8 @@ const router = createBrowserRouter(
           path='/journeys/:code/reservs/edit/:id'
           element={<UpdatResevation />}
         />
+        <Route path='/journeys/:code/expenses' element={<JrnExpenses />} />
+        <Route path='/journeys/:code/incomes' element={<JrnIncomes />} />
       </Route>
     </Route>
   )

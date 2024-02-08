@@ -67,6 +67,52 @@ export const journeysApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Reservations'],
     }),
+    getAllExpenses: builder.query({
+      query: (journeyNo) => `${JOURNEYS_URL}/${journeyNo}/expenses`,
+      providesTags: ['JrnExpenses'],
+    }),
+    getExpense: builder.query({
+      query: (data) => `${JOURNEYS_URL}/${data.journeyNo}/expenses/${data.id}`,
+      providesTags: ['JrnExpenses'],
+    }),
+    addExpense: builder.mutation({
+      query: (expense) => ({
+        url: `${JOURNEYS_URL}/${expense.journeyNo}/expenses`,
+        method: 'POST',
+        body: expense,
+      }),
+      invalidatesTags: ['JrnExpenses'],
+    }),
+    deleteExpense: builder.mutation({
+      query: (expense) => ({
+        url: `${JOURNEYS_URL}/${expense.journeyNo}/expenses/${expense.id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['JrnExpenses'],
+    }),
+    getAllIncomes: builder.query({
+      query: (journeyNo) => `${JOURNEYS_URL}/${journeyNo}/incomes`,
+      providesTags: ['JrnIncomes'],
+    }),
+    getIncome: builder.query({
+      query: (data) => `${JOURNEYS_URL}/${data.journeyNo}/incomes/${data.id}`,
+      providesTags: ['JrnIncomes'],
+    }),
+    addIncome: builder.mutation({
+      query: (income) => ({
+        url: `${JOURNEYS_URL}/${income.journeyNo}/incomes`,
+        method: 'POST',
+        body: income,
+      }),
+      invalidatesTags: ['JrnIncomes'],
+    }),
+    deleteIncome: builder.mutation({
+      query: (income) => ({
+        url: `${JOURNEYS_URL}/${income.journeyNo}/incomes/${income.id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['JrnIncomes'],
+    }),
   }),
 });
 
@@ -81,4 +127,12 @@ export const {
   useAddReservationMutation,
   useUpdateReservationMutation,
   useDeleteReservationMutation,
+  useGetAllExpensesQuery,
+  useGetExpenseQuery,
+  useAddExpenseMutation,
+  useDeleteExpenseMutation,
+  useGetAllIncomesQuery,
+  useGetIncomeQuery,
+  useAddIncomeMutation,
+  useDeleteIncomeMutation,
 } = journeysApiSlice;
