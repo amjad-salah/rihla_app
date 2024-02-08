@@ -176,9 +176,9 @@ const updateReservation = asyncHandler(async (req, res) => {
     ) {
       //Check for seat availability if journey type is passenger
       if (journey.journeyType === 'ركاب') {
-        const vehicle = await Vehicle.findById(jrn.vehicle);
+        const vehicle = await Vehicle.findById(journey.vehicle);
         const reservations = await Reservation.find({
-          journey: jrn._id,
+          journey: journey._id,
           reservationStatus: 'مؤكد',
         });
 
@@ -220,7 +220,7 @@ const updateReservation = asyncHandler(async (req, res) => {
 
     //Check for cancel and delete income
     if (
-      req.body.reservationStatus === 'ملغاة' &&
+      req.body.reservationStatus === 'ملغي' &&
       reservation.reservationStatus === 'مؤكد'
     ) {
       //Creat a global expense to balance income

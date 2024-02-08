@@ -39,6 +39,19 @@ export const journeysApiSlice = apiSlice.injectEndpoints({
       query: (journeyNo) => `${JOURNEYS_URL}/${journeyNo}/reservations`,
       providesTags: ['Reservations'],
     }),
+    getReservation: builder.query({
+      query: (data) =>
+        `${JOURNEYS_URL}/${data.journeyNo}/reservations/${data.id}`,
+      providesTags: ['Reservations'],
+    }),
+    updateReservation: builder.mutation({
+      query: (reserv) => ({
+        url: `${JOURNEYS_URL}/${reserv.journeyNo}/reservations/${reserv.id}`,
+        method: 'PUT',
+        body: reserv,
+      }),
+      invalidatesTags: ['Reservations'],
+    }),
     addReservation: builder.mutation({
       query: (reserv) => ({
         url: `${JOURNEYS_URL}/${reserv.journeyNo}/reservations`,
@@ -64,6 +77,8 @@ export const {
   useUpdateJourneyMutation,
   useDeleteJourneyMutation,
   useGetAllReservationsQuery,
+  useGetReservationQuery,
   useAddReservationMutation,
+  useUpdateReservationMutation,
   useDeleteReservationMutation,
 } = journeysApiSlice;

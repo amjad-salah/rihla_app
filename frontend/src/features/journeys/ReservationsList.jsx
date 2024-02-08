@@ -84,6 +84,7 @@ const ReservationsList = () => {
       setCustomerName('');
       setReservationStatus('مبدئي');
       setSeatNumber('');
+      setPassportNumber('');
       setAmount(0);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
@@ -193,7 +194,7 @@ const ReservationsList = () => {
             <Col></Col>
           </Row>
         </Form>
-        <Row className='mb-4'>
+        <Row className='mb-5 border-bottom'>
           <Col>
             <span className='fw-bold'>القيام: </span>
             {data.journey.departureCity.city}
@@ -237,7 +238,7 @@ const ReservationsList = () => {
                       <td className='d-print-none'>{res.amount}</td>
                       <td className='d-print-none'>
                         <Link
-                          to={`/journeys/${code}/reservs/${res._d}`}
+                          to={`/journeys/${code}/reservs/${res._id}`}
                           style={{
                             display: 'inline-block',
                             marginLeft: '10px',
@@ -248,7 +249,7 @@ const ReservationsList = () => {
                           <FaFolderOpen />
                         </Link>
                         <Link
-                          to={`/journeys/${code}/reservs/edit/${res._d}`}
+                          to={`/journeys/${code}/reservs/edit/${res._id}`}
                           style={{
                             display: 'inline-block',
                             marginLeft: '10px',
@@ -283,7 +284,7 @@ const ReservationsList = () => {
                     <td className='d-print-none'>{res.amount}</td>
                     <td className='d-print-none'>
                       <Link
-                        to={`/journeys/${code}/reservs/${res._d}`}
+                        to={`/journeys/${code}/reservs/${res._id}`}
                         style={{
                           display: 'inline-block',
                           marginLeft: '10px',
@@ -294,7 +295,7 @@ const ReservationsList = () => {
                         <FaFolderOpen />
                       </Link>
                       <Link
-                        to={`/journeys/${code}/reservs/edit/${res._d}`}
+                        to={`/journeys/${code}/reservs/edit/${res._id}`}
                         style={{
                           display: 'inline-block',
                           marginLeft: '10px',
