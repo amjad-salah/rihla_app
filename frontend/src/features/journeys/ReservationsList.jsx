@@ -102,14 +102,14 @@ const ReservationsList = () => {
     content = (
       <>
         {companies.companies.length && (
-          <Row className='mb-1 text-center align-items-center'>
+          <Row className='mb-2 text-center align-items-center'>
             <Col>
               <h5 className='fw-bold'>{companies.companies[0].name}</h5>
               <p>{`${companies.companies[0].address} - ${companies.companies[0].phoneNumber} - ${companies.companies[0].email}`}</p>
             </Col>
           </Row>
         )}
-        <hr className='mb-5' />
+        <hr className='mb-2' />
         <h6 className='text-center mb-4 fw-bold'>حجوزات الرحلة {code}</h6>
 
         {/* Add Form */}
