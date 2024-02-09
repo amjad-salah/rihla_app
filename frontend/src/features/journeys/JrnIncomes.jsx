@@ -96,7 +96,7 @@ const JrnIncomes = () => {
           </Row>
         )}
         <hr className='mb-5' />
-        <h6 className='text-center mb-4 fw-bold'>مدخلات الرحلة {code}</h6>
+        <h6 className='text-center mb-4 fw-bold'>إيرادات الرحلة {code}</h6>
 
         {/* Add Form */}
         <Card className='p-4 mb-2 d-print-none'>

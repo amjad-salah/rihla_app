@@ -48,6 +48,7 @@ import Reservation from './features/journeys/Reservation.jsx';
 import UpdatResevation from './features/journeys/UpdateReservation.jsx';
 import JrnExpenses from './features/journeys/JrnExpenses.jsx';
 import JrnIncomes from './features/journeys/JrnIncomes.jsx';
+import Footer from './components/Footer.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

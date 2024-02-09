@@ -82,7 +82,7 @@ const Journey = () => {
                 to={`/journeys/${data.journey.journeyNumber}/incomes`}
                 className='btn btn-outline-primary'
               >
-                الدخل
+                اﻹيرادات
               </Link>
             </Col>
           </Row>
