@@ -27,8 +27,6 @@ app.use(express.urlencoded({ extended: true }));
 //Cookie Parser
 app.use(cookieParser());
 
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
 //Users Routes
 app.use('/api/users', userRoutes);
 
