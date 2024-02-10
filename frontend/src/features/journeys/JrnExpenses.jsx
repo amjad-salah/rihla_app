@@ -57,7 +57,7 @@ const JrnExpenses = () => {
         journeyNo: code,
         id,
       };
-      const res = await deleteExp(del);
+      const res = await deleteExp(del).unwrap();
 
       toast.success(res.message);
     } catch (err) {
@@ -73,7 +73,7 @@ const JrnExpenses = () => {
         desc,
         amount,
         expType,
-      });
+      }).unwrap();
 
       setAmount(0);
       setDesc('');

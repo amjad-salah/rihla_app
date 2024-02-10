@@ -11,6 +11,10 @@ const finCategorySchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    balance: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     toJSON: {

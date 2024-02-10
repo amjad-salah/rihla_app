@@ -44,7 +44,7 @@ const DriversList = () => {
 
   const deleteHandle = async (id) => {
     try {
-      const res = await deleteDriver(id);
+      const res = await deleteDriver(id).unwrap();
 
       toast.success(res.message);
     } catch (err) {

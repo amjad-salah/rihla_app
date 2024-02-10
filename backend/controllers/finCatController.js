@@ -10,9 +10,23 @@ const getAllCategories = asyncHandler(async (req, res) => {
     .sort('-createdAt')
     .populate('transactions');
 
+  expCats.forEach((cat) => {
+    let totalAmount = 0;
+    cat.transactions.forEach((tx) => (totalAmount += tx.amount));
+    cat.balance = totalAmount;
+  });
+
   const incCats = await FinCategory.find({ catType: 'income' })
     .sort('-createdAt')
     .populate('transactions');
+
+  incCats.forEach((cat) => {
+    let totalAmount = 0;
+    cat.transactions.forEach((tx) => (totalAmount += tx.amount));
+
+    cat.balance = totalAmount;
+  });
+
   res.status(200).json({ expCats, incCats });
 });
 
@@ -23,10 +37,18 @@ const getCategory = asyncHandler(async (req, res) => {
   const category = await FinCategory.findById(req.params.id).populate(
     'transactions'
   );
+
   if (!category) {
     res.status(404);
     throw new Error('Category Not Found');
   }
+
+  let totalAmount = 0;
+
+  category.transactions.forEach((tx) => (totalAmount += tx.amount));
+
+  category.balance = totalAmount;
+
   res.status(200).json({ category });
 });
 

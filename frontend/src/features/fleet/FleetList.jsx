@@ -45,7 +45,7 @@ const FleetList = () => {
 
   const deleteHandle = async (code) => {
     try {
-      const res = await deleteVehicle(code);
+      const res = await deleteVehicle(code).unwrap();
 
       toast.success(res.message);
     } catch (err) {

@@ -61,7 +61,7 @@ const ReservationsList = () => {
         journeyNo: code,
         id,
       };
-      const res = await deleteReserv(del);
+      const res = await deleteReserv(del).unwrap();
 
       toast.success(res.message);
     } catch (err) {
@@ -79,7 +79,7 @@ const ReservationsList = () => {
         amount,
         reservationStatus,
         passportNumber,
-      });
+      }).unwrap();
 
       setCustomerName('');
       setReservationStatus('مبدئي');

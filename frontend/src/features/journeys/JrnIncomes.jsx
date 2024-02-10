@@ -53,7 +53,7 @@ const JrnIncomes = () => {
         journeyNo: code,
         id,
       };
-      const res = await deleteInc(del);
+      const res = await deleteInc(del).unwrap();
 
       toast.success(res.message);
     } catch (err) {
@@ -68,7 +68,7 @@ const JrnIncomes = () => {
         journeyNo: code,
         desc,
         amount,
-      });
+      }).unwrap();
 
       setAmount(0);
       setDesc('');

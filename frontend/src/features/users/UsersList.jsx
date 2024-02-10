@@ -27,7 +27,7 @@ const UsersList = () => {
 
   const deleteHandle = async (id) => {
     try {
-      const res = await deleteUser(id);
+      const res = await deleteUser(id).unwrap();
 
       toast.success(res.message);
     } catch (err) {

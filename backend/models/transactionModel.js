@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import Counter from './counterModel.js';
 
 const transactionSchema = mongoose.Schema(
   {
@@ -15,6 +16,9 @@ const transactionSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    txNumber: {
+      type: String,
+    },
     description: {
       type: String,
       required: true,
@@ -24,6 +28,13 @@ const transactionSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+
+transactionSchema.pre('save', async function () {
+  if (!this.isNew) return;
+  const code = await Counter.increment('transaction');
+  this.txNumber = code;
+  return;
+});
 
 const Transaction = mongoose.model('Transaction', transactionSchema);
 

@@ -102,6 +102,23 @@ const Header = () => {
                   <NavDropdown
                     menuVariant='dark'
                     className='mx-2'
+                    title='المصروفات واﻹيرادات'
+                    id='user'
+                  >
+                    <LinkContainer to='/transactions/categories'>
+                      <NavDropdown.Item>الفئات</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/transactions'>
+                      <NavDropdown.Item>المعاملات</NavDropdown.Item>
+                    </LinkContainer>
+                    <LinkContainer to='/transactions/report'>
+                      <NavDropdown.Item>التقرير</NavDropdown.Item>
+                    </LinkContainer>
+                  </NavDropdown>
+
+                  <NavDropdown
+                    menuVariant='dark'
+                    className='mx-2'
                     title='المستخدمين'
                     id='user'
                   >

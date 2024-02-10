@@ -47,7 +47,7 @@ const CompaniesList = () => {
 
   const deleteHandle = async (id) => {
     try {
-      const res = await deleteCompany(id);
+      const res = await deleteCompany(id).unwrap();
 
       toast.success(res.message);
     } catch (err) {
@@ -63,7 +63,7 @@ const CompaniesList = () => {
         address,
         email,
         phoneNumber,
-      });
+      }).unwrap();
 
       setAddress('');
       setEmail('');
@@ -71,7 +71,6 @@ const CompaniesList = () => {
       setPhoneNumber('');
     } catch (err) {
       toast.error(err?.data?.message || err.error);
-      console.log(err);
     }
   };
 

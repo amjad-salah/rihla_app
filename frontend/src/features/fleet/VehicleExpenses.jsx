@@ -38,7 +38,7 @@ const VehicleExpenses = () => {
 
   const deleteHandle = async (id) => {
     try {
-      const res = await deleteVehicleExp({ code, id });
+      const res = await deleteVehicleExp({ code, id }).unwrap();
     } catch (err) {
       toast.error(err?.data?.message || err.error);
       console.log(err);

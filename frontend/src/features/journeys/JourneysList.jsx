@@ -45,7 +45,7 @@ const JourneysList = () => {
 
   const deleteHandle = async (journeyNumber) => {
     try {
-      const res = await deleteJourney(journeyNumber);
+      const res = await deleteJourney(journeyNumber).unwrap();
 
       toast.success(res.message);
     } catch (err) {

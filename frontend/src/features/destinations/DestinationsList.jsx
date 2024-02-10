@@ -41,7 +41,7 @@ const DestinationsList = () => {
 
   const deleteHandle = async (id) => {
     try {
-      const res = await deleteDest(id);
+      const res = await deleteDest(id).unwrap();
 
       toast.success(res.message);
     } catch (err) {

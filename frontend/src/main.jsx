@@ -49,6 +49,8 @@ import UpdatResevation from './features/journeys/UpdateReservation.jsx';
 import JrnExpenses from './features/journeys/JrnExpenses.jsx';
 import JrnIncomes from './features/journeys/JrnIncomes.jsx';
 import Footer from './components/Footer.jsx';
+import CategoriesList from './features/IncExp/CategoriesList.jsx';
+import Category from './features/IncExp/Category.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -102,22 +104,37 @@ const router = createBrowserRouter(
           <Route path='/destinations/:id' element={<Destination />} />
           <Route path='/destinations/add' element={<AddDestination />} />
         </Route>
-      </Route>
 
-      {/* Journeys Route */}
-      <Route path='/journeys'>
-        <Route index={true} path='/journeys' element={<JourneysList />} />
-        <Route path='/journeys/:code' element={<Journey />} />
-        <Route path='/journeys/add' element={<AddJourney />} />
-        <Route path='/journeys/:code' element={<Journey />} />
-        <Route path='/journeys/:code/reservs' element={<ReservationsList />} />
-        <Route path='/journeys/:code/reservs/:id' element={<Reservation />} />
-        <Route
-          path='/journeys/:code/reservs/edit/:id'
-          element={<UpdatResevation />}
-        />
-        <Route path='/journeys/:code/expenses' element={<JrnExpenses />} />
-        <Route path='/journeys/:code/incomes' element={<JrnIncomes />} />
+        {/* Journeys Route */}
+        <Route path='/journeys'>
+          <Route index={true} path='/journeys' element={<JourneysList />} />
+          <Route path='/journeys/:code' element={<Journey />} />
+          <Route path='/journeys/add' element={<AddJourney />} />
+          <Route path='/journeys/:code' element={<Journey />} />
+          <Route
+            path='/journeys/:code/reservs'
+            element={<ReservationsList />}
+          />
+          <Route path='/journeys/:code/reservs/:id' element={<Reservation />} />
+          <Route
+            path='/journeys/:code/reservs/edit/:id'
+            element={<UpdatResevation />}
+          />
+          <Route path='/journeys/:code/expenses' element={<JrnExpenses />} />
+          <Route path='/journeys/:code/incomes' element={<JrnIncomes />} />
+        </Route>
+
+        {/* Transactions Route */}
+        <Route path='/transactions'>
+          <Route path='/transactions/categories'>
+            <Route
+              index={true}
+              path='/transactions/categories'
+              element={<CategoriesList />}
+            />
+            <Route path='/transactions/categories/:id' element={<Category />} />
+          </Route>
+        </Route>
       </Route>
     </Route>
   )

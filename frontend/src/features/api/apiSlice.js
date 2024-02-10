@@ -17,6 +17,8 @@ export const apiSlice = createApi({
     'Companies',
     'JrnExpenses',
     'JrnIncomes',
+    'FinCategories',
+    'Transactions',
   ],
   endpoints: (builder) => ({}),
 });
