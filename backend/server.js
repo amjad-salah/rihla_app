@@ -1,5 +1,4 @@
 import express from 'express';
-import * as url from 'url';
 
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
