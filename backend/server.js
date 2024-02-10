@@ -30,10 +30,6 @@ app.use(cookieParser());
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
-app.get('/', (req, res) =>
-  res.sendFile('public/index.html', { root: __dirname })
-);
-
 //Users Routes
 app.use('/api/users', userRoutes);
 
