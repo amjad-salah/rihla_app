@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useAddVehicleMutation } from './fleetApiSlice';
@@ -54,81 +54,86 @@ const AddVehicle = () => {
   };
 
   return (
-    <FormContainer>
-      {isLoading && <Loader />}
-      <h2>إضافة مركبة</h2>
-      <Form onSubmit={submitHandler}>
-        <Form.Group className='my-2' controlId='vehMake'>
-          <Form.Label>المصنع</Form.Label>
-          <Form.Control
-            type='text'
-            value={vehMake}
-            onChange={(e) => setVehMake(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group className='my-2' controlId='vehMoadel'>
-          <Form.Label>الطراز</Form.Label>
-          <Form.Control
-            type='text'
-            value={vehModel}
-            onChange={(e) => setVehModel(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group className='my-2' controlId='vehYear'>
-          <Form.Label>سنة الصنع</Form.Label>
-          <Form.Control
-            type='text'
-            value={vehYear}
-            onChange={(e) => setVehYear(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group className='my-2' controlId='registerNumber'>
-          <Form.Label>رقم اللوحة</Form.Label>
-          <Form.Control
-            type='text'
-            value={registerNumber}
-            onChange={(e) => setRegisterNumber(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>نوع المركبة</Form.Label>
-          <Form.Select onChange={(e) => setVehType(e.target.value)}>
-            <option selected>إختر نوع المركبة</option>
-            <option value='باص'>باص</option>
-            <option value='ميني باص'>ميني باص</option>
-            <option value='شاحنة'>شاحنة</option>
-          </Form.Select>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>حالة المركبة</Form.Label>
-          <Form.Select onChange={(e) => setStatus(e.target.value)}>
-            <option selected>إختر حالة المركبة</option>
-            <option value='متوفر'>متوفر</option>
-            <option value='في الطريق'>في الطريق</option>
-            <option value='في الصيانة'>في الصيانة</option>
-          </Form.Select>
-        </Form.Group>
-        <Form.Group className='my-2' controlId='capacity'>
-          <Form.Label>سعة المركبة</Form.Label>
-          <Form.Control
-            type='text'
-            value={capacity}
-            onChange={(e) => setCapacity(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Form.Group className='my-2' controlId='nextMaintenanceDate'>
-          <Form.Label>تاريخ الصيانة القادمة</Form.Label>
-          <Form.Control
-            type='date'
-            value={nextMaintenanceDate}
-            onChange={(e) => setNextMaintenanceDate(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
-        <Button type='submit' variant='primary' className='mt-3'>
-          إضافة
-        </Button>
-      </Form>
-    </FormContainer>
+    <>
+      <Link to='/fleet' className='btn btn-outline-dark mb-5 d-print-none'>
+        عودة
+      </Link>
+      <FormContainer>
+        {isLoading && <Loader />}
+        <h2>إضافة مركبة</h2>
+        <Form onSubmit={submitHandler}>
+          <Form.Group className='my-2' controlId='vehMake'>
+            <Form.Label>المصنع</Form.Label>
+            <Form.Control
+              type='text'
+              value={vehMake}
+              onChange={(e) => setVehMake(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group className='my-2' controlId='vehMoadel'>
+            <Form.Label>الطراز</Form.Label>
+            <Form.Control
+              type='text'
+              value={vehModel}
+              onChange={(e) => setVehModel(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group className='my-2' controlId='vehYear'>
+            <Form.Label>سنة الصنع</Form.Label>
+            <Form.Control
+              type='text'
+              value={vehYear}
+              onChange={(e) => setVehYear(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group className='my-2' controlId='registerNumber'>
+            <Form.Label>رقم اللوحة</Form.Label>
+            <Form.Control
+              type='text'
+              value={registerNumber}
+              onChange={(e) => setRegisterNumber(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>نوع المركبة</Form.Label>
+            <Form.Select onChange={(e) => setVehType(e.target.value)}>
+              <option selected>إختر نوع المركبة</option>
+              <option value='باص'>باص</option>
+              <option value='ميني باص'>ميني باص</option>
+              <option value='شاحنة'>شاحنة</option>
+            </Form.Select>
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>حالة المركبة</Form.Label>
+            <Form.Select onChange={(e) => setStatus(e.target.value)}>
+              <option selected>إختر حالة المركبة</option>
+              <option value='متوفر'>متوفر</option>
+              <option value='في الطريق'>في الطريق</option>
+              <option value='في الصيانة'>في الصيانة</option>
+            </Form.Select>
+          </Form.Group>
+          <Form.Group className='my-2' controlId='capacity'>
+            <Form.Label>سعة المركبة</Form.Label>
+            <Form.Control
+              type='text'
+              value={capacity}
+              onChange={(e) => setCapacity(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Form.Group className='my-2' controlId='nextMaintenanceDate'>
+            <Form.Label>تاريخ الصيانة القادمة</Form.Label>
+            <Form.Control
+              type='date'
+              value={nextMaintenanceDate}
+              onChange={(e) => setNextMaintenanceDate(e.target.value)}
+            ></Form.Control>
+          </Form.Group>
+          <Button type='submit' variant='primary' className='mt-3'>
+            إضافة
+          </Button>
+        </Form>
+      </FormContainer>
+    </>
   );
 };
 

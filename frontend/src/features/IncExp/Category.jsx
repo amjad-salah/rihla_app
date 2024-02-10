@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -38,6 +38,12 @@ const Category = () => {
   if (isSuccess) {
     content = (
       <>
+        <Link
+          to='/transactions/categories'
+          className='btn btn-outline-dark mb-5 d-print-none'
+        >
+          عودة
+        </Link>
         {companies.companies.length && (
           <Row className='mb-1 text-center align-items-center'>
             <Col>
@@ -59,7 +65,7 @@ const Category = () => {
               </Col>
               <Col>
                 <span className='fw-bold'>نوع الفئة: </span>
-                {data.category.catType}
+                {data.category.catType === 'expense' ? 'مصروف' : 'إيراد'}
               </Col>
               <Col>
                 <span className='fw-bold'>الرصيد: </span>

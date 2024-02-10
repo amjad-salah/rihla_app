@@ -51,6 +51,8 @@ import JrnIncomes from './features/journeys/JrnIncomes.jsx';
 import Footer from './components/Footer.jsx';
 import CategoriesList from './features/IncExp/CategoriesList.jsx';
 import Category from './features/IncExp/Category.jsx';
+import TransactionsList from './features/IncExp/TransactionsList.jsx';
+import Report from './features/IncExp/Report.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -78,7 +80,7 @@ const router = createBrowserRouter(
           <Route index={true} path='/fleet' element={<FleetList />} />
           <Route path='/fleet/:code' element={<Vehicle />} />
           <Route path='/fleet/add' element={<AddVehicle />} />
-          <Route path='/fleet/edit/:id' element={<UpdateVehicle />} />
+          <Route path='/fleet/edit/:code' element={<UpdateVehicle />} />
           <Route path='/fleet/:code/expenses' element={<VehicleExpenses />} />
           <Route
             path='/fleet/:code/expenses/add'
@@ -110,7 +112,7 @@ const router = createBrowserRouter(
           <Route index={true} path='/journeys' element={<JourneysList />} />
           <Route path='/journeys/:code' element={<Journey />} />
           <Route path='/journeys/add' element={<AddJourney />} />
-          <Route path='/journeys/:code' element={<Journey />} />
+          <Route path='/journeys/edit/:code' element={<Updatjourney />} />
           <Route
             path='/journeys/:code/reservs'
             element={<ReservationsList />}
@@ -126,6 +128,12 @@ const router = createBrowserRouter(
 
         {/* Transactions Route */}
         <Route path='/transactions'>
+          <Route
+            index={true}
+            path='/transactions'
+            element={<TransactionsList />}
+          />
+          <Route path='/transactions/report' element={<Report />} />
           <Route path='/transactions/categories'>
             <Route
               index={true}

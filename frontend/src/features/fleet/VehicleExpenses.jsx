@@ -52,6 +52,9 @@ const VehicleExpenses = () => {
 
     content = (
       <>
+        <Link to='/fleet' className='btn btn-outline-dark mb-5 d-print-none'>
+          عودة
+        </Link>
         {(isLoading || loading) && <Loader />}
         {isErr && toast.error(err.data.message)}
         <h3 className='text-center mb-5'>{`مصروفات المركبة ${data.vehicle.vehCode}`}</h3>

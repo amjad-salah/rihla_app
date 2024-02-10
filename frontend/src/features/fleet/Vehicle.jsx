@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +52,9 @@ const Vehicle = () => {
     }
     content = (
       <>
+        <Link to='/fleet' className='btn btn-outline-dark mb-5 d-print-none'>
+          عودة
+        </Link>
         {companies.companies.length && (
           <Row className='mb-1 text-center align-items-center'>
             <Col>

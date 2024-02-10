@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
@@ -112,6 +112,12 @@ const Updatjourney = () => {
   } else if (destSuccess && driSuccess && vehSuccess && isSuccess) {
     content = (
       <>
+        <Link
+          to={`/journeys/`}
+          className='btn btn-outline-dark mb-5 d-print-none'
+        >
+          عودة
+        </Link>
         {isLoading && <Loader />}
         <FormContainer>
           <h2>تعديل رحلة</h2>

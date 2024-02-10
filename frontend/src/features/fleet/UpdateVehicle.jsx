@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useUpdateVehicleMutation, useGetVehicleQuery } from './fleetApiSlice';
@@ -83,7 +83,7 @@ const UpdateVehicle = () => {
     content = (
       <>
         {isLoading && <Loader />}
-        <h2>إضافة مركبة</h2>
+        <h2>تعديل مركبة</h2>
         <Form onSubmit={submitHandler}>
           <Form.Group className='my-2' controlId='vehMake'>
             <Form.Label>المصنع</Form.Label>
@@ -163,7 +163,14 @@ const UpdateVehicle = () => {
     );
   }
 
-  return <FormContainer>{content}</FormContainer>;
+  return (
+    <>
+      <Link to='/fleet' className='btn btn-outline-dark mb-5 d-print-none'>
+        عودة
+      </Link>
+      <FormContainer>{content}</FormContainer>
+    </>
+  );
 };
 
 export default UpdateVehicle;

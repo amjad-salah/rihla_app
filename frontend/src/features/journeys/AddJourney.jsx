@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useAddJourneyMutation } from './journeysApiSlice';
@@ -85,6 +85,9 @@ const AddJourney = () => {
   } else if (destSuccess && driSuccess && vehSuccess) {
     content = (
       <>
+        <Link to='/journeys' className='btn btn-outline-dark mb-5 d-print-none'>
+          عودة
+        </Link>
         {isLoading && <Loader />}
         <FormContainer>
           <h2>إضافة رحلة</h2>

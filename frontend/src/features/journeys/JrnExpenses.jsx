@@ -93,6 +93,12 @@ const JrnExpenses = () => {
   if (isSuccess) {
     content = (
       <>
+        <Link
+          to={`/journeys/${code}`}
+          className='btn btn-outline-dark mb-5 d-print-none'
+        >
+          عودة
+        </Link>
         {companies.companies.length && (
           <Row className='mb-1 text-center align-items-center'>
             <Col>

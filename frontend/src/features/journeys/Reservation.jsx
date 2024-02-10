@@ -38,6 +38,12 @@ const Reservation = () => {
   if (isSuccess) {
     content = (
       <>
+        <Link
+          to={`/journeys/${code}/reservs`}
+          className='btn btn-outline-dark mb-5 d-print-none'
+        >
+          عودة
+        </Link>
         {companies.companies.length && (
           <Row className='text-center align-items-center'>
             <Col>

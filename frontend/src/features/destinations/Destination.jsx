@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +35,12 @@ const Destination = () => {
   if (isSuccess) {
     content = (
       <>
+        <Link
+          to='/destinations'
+          className='btn btn-outline-dark mb-5 d-print-none'
+        >
+          عودة
+        </Link>
         <h3 className='text-center mb-5'>تفاصيل الوجهة</h3>
         <Card className='p-4 mb-5'>
           <Card.Body>

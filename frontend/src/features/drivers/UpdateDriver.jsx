@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useUpdateDriverMutation, useGetDriverQuery } from './driversApiSlice';
@@ -110,7 +110,14 @@ const UpdateDriver = () => {
     );
   }
 
-  return <FormContainer>{content}</FormContainer>;
+  return (
+    <>
+      <Link to='/drivers' className='btn btn-outline-dark mb-5 d-print-none'>
+        عودة
+      </Link>
+      <FormContainer>{content}</FormContainer>
+    </>
+  );
 };
 
 export default UpdateDriver;

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { clearCredential } from '../users/authSlice';
 
 import { FaTrashAlt, FaEdit, FaFolderOpen } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import moment from 'moment';
 import Loader from '../../components/Loader';
 import {
   useGetAllCategoriesQuery,
@@ -156,17 +155,6 @@ const CategoriesList = () => {
                   >
                     <FaFolderOpen />
                   </Link>
-                  <Link
-                    to={`/transactions/categories/edit/${cat._id}`}
-                    style={{
-                      display: 'inline-block',
-                      marginLeft: '10px',
-                    }}
-                    className='btn btn-light text-primary'
-                    title='تعديل'
-                  >
-                    <FaEdit />
-                  </Link>
                   <Button
                     style={{
                       display: 'inline-block',
@@ -212,17 +200,6 @@ const CategoriesList = () => {
                     title='تفاصيل'
                   >
                     <FaFolderOpen />
-                  </Link>
-                  <Link
-                    to={`/transactions/categories/edit/${cat._id}`}
-                    style={{
-                      display: 'inline-block',
-                      marginLeft: '10px',
-                    }}
-                    className='btn btn-light text-primary'
-                    title='تعديل'
-                  >
-                    <FaEdit />
                   </Link>
                   <Button
                     style={{
