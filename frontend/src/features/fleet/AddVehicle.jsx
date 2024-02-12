@@ -63,7 +63,7 @@ const AddVehicle = () => {
         <h2>إضافة مركبة</h2>
         <Form onSubmit={submitHandler}>
           <Form.Group className='my-2' controlId='vehMake'>
-            <Form.Label>المصنع</Form.Label>
+            <Form.Label>الشركة المصنعة</Form.Label>
             <Form.Control
               type='text'
               value={vehMake}
